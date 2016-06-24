@@ -6,8 +6,16 @@
     xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
+  <loc>https://mrinalpurohit.in/categories/android.xml</loc>
+  <lastmod>2016-06-24T21:37:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>https://mrinalpurohit.in/categories/beginning.xml</loc>
   <lastmod>2016-06-14T12:38:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://mrinalpurohit.in/categories/cat_gadgets.xml</loc>
+  <lastmod>2016-06-24T21:37:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://mrinalpurohit.in/categories/cat_personal.xml</loc>
@@ -18,8 +26,16 @@
   <lastmod>2016-06-15T22:28:00Z</lastmod>
  </sitemap>
  <sitemap>
+  <loc>https://mrinalpurohit.in/categories/farewell.xml</loc>
+  <lastmod>2016-06-24T21:37:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>https://mrinalpurohit.in/categories/first.xml</loc>
   <lastmod>2016-06-14T12:38:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://mrinalpurohit.in/categories/google.xml</loc>
+  <lastmod>2016-06-24T21:37:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://mrinalpurohit.in/categories/init.xml</loc>
@@ -34,12 +50,32 @@
   <lastmod>2016-06-15T22:28:00Z</lastmod>
  </sitemap>
  <sitemap>
+  <loc>https://mrinalpurohit.in/categories/lumia-920.xml</loc>
+  <lastmod>2016-06-24T21:37:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://mrinalpurohit.in/categories/lumia.xml</loc>
+  <lastmod>2016-06-24T21:37:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://mrinalpurohit.in/categories/microsoft.xml</loc>
+  <lastmod>2016-06-24T21:37:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>https://mrinalpurohit.in/categories/nikola.xml</loc>
   <lastmod>2016-06-15T22:28:00Z</lastmod>
  </sitemap>
  <sitemap>
+  <loc>https://mrinalpurohit.in/categories/nokia.xml</loc>
+  <lastmod>2016-06-24T21:37:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>https://mrinalpurohit.in/categories/pelican.xml</loc>
   <lastmod>2016-06-15T22:28:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://mrinalpurohit.in/categories/phones.xml</loc>
+  <lastmod>2016-06-24T21:37:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://mrinalpurohit.in/categories/python.xml</loc>
@@ -54,15 +90,23 @@
   <lastmod>2016-06-15T22:28:00Z</lastmod>
  </sitemap>
  <sitemap>
+  <loc>https://mrinalpurohit.in/categories/windows-mobile.xml</loc>
+  <lastmod>2016-06-24T21:37:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://mrinalpurohit.in/categories/windows-phone.xml</loc>
+  <lastmod>2016-06-24T21:37:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>https://mrinalpurohit.in/galleries/rss.xml</loc>
   <lastmod>2016-06-17T11:22:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://mrinalpurohit.in/rss.xml</loc>
-  <lastmod>2016-06-15T22:28:00Z</lastmod>
+  <lastmod>2016-06-24T21:37:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://mrinalpurohit.in/sitemap.xml</loc>
-  <lastmod>2016-06-17T11:25:00Z</lastmod>
+  <lastmod>2016-06-24T21:46:00Z</lastmod>
  </sitemap>
 </sitemapindex>

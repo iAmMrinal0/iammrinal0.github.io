@@ -23,11 +23,15 @@
  </url>
  <url>
   <loc>https://mrinalpurohit.in/archive.html</loc>
-  <lastmod>2016-06-17T11:22:00Z</lastmod>
+  <lastmod>2016-06-24T19:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/blog/</loc>
-  <lastmod>2016-06-04T22:03:00Z</lastmod>
+  <lastmod>2016-06-24T19:33:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://mrinalpurohit.in/blog/a-reliable-device-dies-finally/</loc>
+  <lastmod>2016-06-24T19:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/blog/init/</loc>
@@ -43,11 +47,19 @@
  </url>
  <url>
   <loc>https://mrinalpurohit.in/categories/</loc>
-  <lastmod>2016-06-05T17:20:00Z</lastmod>
+  <lastmod>2016-06-24T21:44:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://mrinalpurohit.in/categories/android/</loc>
+  <lastmod>2016-06-24T19:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/categories/beginning/</loc>
   <lastmod>2016-06-02T20:27:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://mrinalpurohit.in/categories/cat_gadgets/</loc>
+  <lastmod>2016-06-24T19:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/categories/cat_personal/</loc>
@@ -58,8 +70,16 @@
   <lastmod>2016-06-02T20:59:00Z</lastmod>
  </url>
  <url>
+  <loc>https://mrinalpurohit.in/categories/farewell/</loc>
+  <lastmod>2016-06-24T19:33:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://mrinalpurohit.in/categories/first/</loc>
   <lastmod>2016-05-25T07:20:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://mrinalpurohit.in/categories/google/</loc>
+  <lastmod>2016-06-24T19:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/categories/init/</loc>
@@ -74,12 +94,32 @@
   <lastmod>2016-06-02T20:59:00Z</lastmod>
  </url>
  <url>
+  <loc>https://mrinalpurohit.in/categories/lumia-920/</loc>
+  <lastmod>2016-06-24T21:37:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://mrinalpurohit.in/categories/lumia/</loc>
+  <lastmod>2016-06-24T19:33:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://mrinalpurohit.in/categories/microsoft/</loc>
+  <lastmod>2016-06-24T19:33:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://mrinalpurohit.in/categories/nikola/</loc>
   <lastmod>2016-06-02T20:59:00Z</lastmod>
  </url>
  <url>
+  <loc>https://mrinalpurohit.in/categories/nokia/</loc>
+  <lastmod>2016-06-24T21:37:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://mrinalpurohit.in/categories/pelican/</loc>
   <lastmod>2016-06-02T21:36:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://mrinalpurohit.in/categories/phones/</loc>
+  <lastmod>2016-06-24T21:35:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/categories/python/</loc>
@@ -92,6 +132,14 @@
  <url>
   <loc>https://mrinalpurohit.in/categories/static/</loc>
   <lastmod>2016-06-02T20:59:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://mrinalpurohit.in/categories/windows-mobile/</loc>
+  <lastmod>2016-06-24T21:37:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://mrinalpurohit.in/categories/windows-phone/</loc>
+  <lastmod>2016-06-24T21:37:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/galleries/</loc>
