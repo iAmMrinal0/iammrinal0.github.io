@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " vocab="http://ogp.me/ns" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="A webserver in Python using Asyncio">
+<meta name="viewport" content="width=device-width">
+<title>A webserver in Python using Asyncio • Mrinal Purohit</title>
+<link href="../../assets/css/all.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://mrinalpurohit.in/blog/a-webserver-in-python-using-asyncio/">
+<link rel="icon" href="../../assets/images/favicon.ico" sizes="50x50">
+<!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script><![endif]--><script src="https://use.fontawesome.com/fa20058d35.js"></script><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-64263019-1', 'auto');
+  ga('send', 'pageview');
+
+</script><meta name="author" content="Mrinal Purohit">
+<link rel="prev" href="../the-month-that-was-september/" title="The month that was September" type="text/html">
+<meta property="og:site_name" content="Through My Eyes">
+<meta property="og:title" content="A webserver in Python using Asyncio">
+<meta property="og:url" content="https://mrinalpurohit.in/blog/a-webserver-in-python-using-asyncio/">
+<meta property="og:description" content="A webserver in Python using Asyncio">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2016-11-16T10:12:18+05:30">
+<meta property="article:tag" content="asyncio">
+<meta property="article:tag" content="geekskool">
+<meta property="article:tag" content="http">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="server">
+<meta property="article:tag" content="threads">
+</head>
+<body class="theme-base-22">
+    <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+            styles, `#sidebar-checkbox` for behavior. -->
+    <input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox"><!-- Toggleable sidebar --><div class="sidebar" id="sidebar">
+        <div class="sidebar-item">
+            <img src="../../assets/images/face.jpg">
+</div>
+        
+    <nav id="menu" role="navigation" class="sidebar-nav"><a class="sidebar-nav-item" href="../../blog">Blog</a>
+            <a class="sidebar-nav-item" href="../../about">About</a>
+            <a class="sidebar-nav-item" href="../../archive.html">Archive</a>
+            <a class="sidebar-nav-item" href="../../categories/">Tags</a>
+            <a class="sidebar-nav-item" href="../../rss.xml">RSS feed</a>
+    
+    
+    </nav>
+</div>
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          
+    <h3 id="brand" class="masthead-title">
+      <a href="https://mrinalpurohit.in/" title="Through My Eyes" rel="home">Through My Eyes</a>
+    </h3>
+
+        </div>
+      </div>
+
+      <div class="container content" id="content">
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="post-title p-name entry-title" itemprop="headline name"><a href="." class="u-url">A webserver in Python using Asyncio</a></h1>
+
+        <div class="metadata">
+            <p class="dateline"><time class="post-date published dt-published" datetime="2016-11-16T10:12:18+05:30" itemprop="datePublished" title="16-Nov-2016 10:12">16-Nov-2016 10:12</time></p>
+                 <p class="commentline">
+        
+    <a href="#disqus_thread" data-disqus-identifier="cache/posts/a-webserver-in-python-using-asyncio.html">Comments</a>
+
+
+                <meta name="description" itemprop="description" content="A webserver in Python using Asyncio"></p>
+</div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div>
+<p>It's been a month and a half since I started as a student at Geekskool and it's been pretty exciting here. I started with solving HackerRank problems in the Algorithms section using Python 3 and then moved on to a project which was a <a href="https://github.com/geekskool/python-json-parser">JSON parser</a> and <!-- TEASER_END --> this helped me understand how parsers actually worked. As I wanted to concentrate on becoming a good backend programmer, and wanted to know how frameworks like Flask or Django work, I decided to start with a webserver project to understand how the webserver works underneath.</p>
+<p>I had a rudimentary implementation using threads based on previous work by ex-Geekskool students and had to port it to Python 3 and add more features. Most of the time was spent in reading the <a href="https://www.ietf.org/rfc/rfc2616.txt">HTTP RFC spec</a> which even though time consuming, gave a glimpse about what all goes in the HTTP/1.1 protocol, the syntax, the required request and response headers.</p>
+<p>I commenced with moving the server from a threads based approach to the new and shiny asyncio based approach. I had to read up on why the async approach was brought in the first place, the pros and cons of threads and when to use threads and when to use async.</p>
+<p>In the older code base, the threads version, <code>2048</code> bytes were read from a socket every time, till there was no data to read, which looked inefficient. In the async based approach, I started with the same methodology till I found a method, in the async <code>reader</code> object called <code>readuntil</code> which I used to read till the delimiter <code>\r\n\r\n</code> which gives the complete header and for the body I took the <code>Content-Length</code> field from the header and used a method <code>readexactly</code> to read the exact bytes of the body.</p>
+<pre class="code literal-block"><span></span><span class="k">def</span> <span class="nf">check_content</span><span class="p">(</span><span class="n">headers</span><span class="p">):</span>
+    <span class="k">if</span> <span class="sa">b</span><span class="s2">"Content-Length"</span> <span class="ow">in</span> <span class="n">headers</span><span class="p">:</span>
+        <span class="n">con_pos</span> <span class="o">=</span> <span class="n">headers</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">b</span><span class="s2">"Content-Length"</span><span class="p">)</span>
+        <span class="n">col_pos</span> <span class="o">=</span> <span class="n">headers</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">b</span><span class="s2">":"</span><span class="p">,</span> <span class="n">con_pos</span><span class="p">)</span>
+        <span class="n">srsn</span> <span class="o">=</span> <span class="n">headers</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">b</span><span class="s2">"</span><span class="se">\r\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">col_pos</span><span class="p">)</span>
+        <span class="n">con_len</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">headers</span><span class="p">[</span><span class="n">col_pos</span> <span class="o">+</span> <span class="mi">2</span><span class="p">:</span><span class="n">srsn</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">con_len</span>
+</pre>
+
+
+<pre class="code literal-block"><span></span><span class="n">header</span> <span class="o">=</span> <span class="k">await</span> <span class="n">reader</span><span class="o">.</span><span class="n">readuntil</span><span class="p">(</span><span class="sa">b</span><span class="s2">"</span><span class="se">\r\n\r\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">content_length</span> <span class="o">=</span> <span class="n">check_content</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">content_length</span><span class="p">:</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="k">await</span> <span class="n">reader</span><span class="o">.</span><span class="n">readexactly</span><span class="p">(</span><span class="n">content_length</span><span class="p">)</span>
+</pre>
+
+
+<p>The method <code>check_content</code> checks for <code>Content-Length</code> in the header byte string and returns the value and the following snippet reads exactly the amount of bytes as specified in the <code>Content-Length</code> header field.</p>
+<p>File uploads, handling query parameters in a GET request were the features added next. It involved a lot of refactoring, as I was realizing the pains of strings and byte strings which Python 2 did not differentiate, and was also slowly getting the hang of how asyncio works.</p>
+<p>Features to be added:</p>
+<ul>
+<li>Middlewares</li>
+<li>Dynamic routes</li>
+<li>CORS support</li>
+<li>Web socket support</li>
+</ul>
+<p>So, currently the server can serve dynamic content, static files, handle GET and POST requests, handle sessions using cookies, and file uploads. The complete code is in a single file at <a href="https://github.com/geekskool/magicserver-python3/blob/master/server.py">server.py</a> and the repo is at <a href="https://github.com/geekskool/magicserver-python3/">magicserver-python3</a></p>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/asyncio/" rel="tag"> asyncio</a></li>
+            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/geekskool/" rel="tag"> geekskool</a></li>
+            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/http/" rel="tag"> http</a></li>
+            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/python/" rel="tag"> python</a></li>
+            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/server/" rel="tag"> server</a></li>
+            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/threads/" rel="tag"> threads</a></li>
+        </ul>
+<div class="pager hidden-print">
+            <p class="previous">
+                <a href="../the-month-that-was-september/" rel="prev" title="The month that was September"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Previous</a>
+            </p>
+        </div>
+
+    </nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+        
+        
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="iammrinal0",
+            disqus_url="https://mrinalpurohit.in/blog/a-webserver-in-python-using-asyncio/",
+        disqus_title="A webserver in Python using Asyncio",
+        disqus_identifier="cache/posts/a-webserver-in-python-using-asyncio.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        </section></article><script>var disqus_shortname="iammrinal0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p></p>
+<hr>
+<a class="fa fa-github" href="https://github.com/iammrinal0" title="GitHub" target="_blank"></a><a class="fa fa-key" href="https://keybase.io/iammrinal0" title="Keybase" target="_blank"></a><a class="fa fa-linkedin" href="https://linkedin.com/in/iammrinal0" title="LinkedIn" target="_blank"></a><a class="fa" href="https://goodreads.com/iammrinal0" title="Goodreads" target="_blank">g</a><a class="fa fa-facebook-f" href="https://facebook.com/iammrinal0" title="Facebook" target="_blank"></a><a class="fa fa-twitter" href="https://twitter.com/iammrinal0" title="Twitter" target="_blank"></a><a class="fa fa-instagram" href="https://instagram.com/iammrinal0" title="Instagram" target="_blank"></a><br>© 2016         <a href="mailto:contact@mrinalpurohit.in">Mrinal Purohit</a> - Powered by        <a href="https://getnikola.com" rel="nofollow" target="_blank">Nikola</a> with <a href="https://github.com/iammrinal0/lanyon" target="_blank">Lanyon</a> theme
+            
+        </footer>
+</div>
+    </div>
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+    <script>
+      (function(document) {
+        var toggle = document.querySelector('.sidebar-toggle');
+        var sidebar = document.querySelector('#sidebar');
+        var checkbox = document.querySelector('#sidebar-checkbox');
+        document.addEventListener('click', function(e) {
+          var target = e.target;
+          if(!checkbox.checked ||
+             sidebar.contains(target) ||
+             (target === checkbox || target === toggle)) return;
+          checkbox.checked = false;
+        }, false);
+      })(document);
+    </script><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script><script src="../../assets/js/all.js"></script><script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-576133a19bcabb3e"></script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(2, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>
