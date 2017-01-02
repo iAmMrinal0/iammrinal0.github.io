@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " vocab="http://ogp.me/ns" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="A look at a different programming paradigm">
+<meta name="viewport" content="width=device-width">
+<title>A short stint with Haskell • Mrinal Purohit</title>
+<link href="../../assets/css/all.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://mrinalpurohit.in/blog/a-short-stint-with-haskell/">
+<link rel="icon" href="../../assets/images/favicon.ico" sizes="50x50">
+<!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script><![endif]--><script src="https://use.fontawesome.com/fa20058d35.js"></script><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-64263019-1', 'auto');
+  ga('send', 'pageview');
+
+</script><meta name="author" content="Mrinal Purohit">
+<link rel="prev" href="../a-webserver-in-python-using-asyncio/" title="A webserver in Python using Asyncio" type="text/html">
+<meta property="og:site_name" content="Through My Eyes">
+<meta property="og:title" content="A short stint with Haskell">
+<meta property="og:url" content="https://mrinalpurohit.in/blog/a-short-stint-with-haskell/">
+<meta property="og:description" content="A look at a different programming paradigm">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-01-03T00:32:37+05:30">
+<meta property="article:tag" content="clean">
+<meta property="article:tag" content="functional programming">
+<meta property="article:tag" content="geekskool">
+<meta property="article:tag" content="haskell">
+<meta property="article:tag" content="python">
+</head>
+<body class="theme-base-22">
+    <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+            styles, `#sidebar-checkbox` for behavior. -->
+    <input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox"><!-- Toggleable sidebar --><div class="sidebar" id="sidebar">
+        <div class="sidebar-item">
+            <img src="../../assets/images/face.jpg">
+</div>
+        
+    <nav id="menu" role="navigation" class="sidebar-nav"><a class="sidebar-nav-item" href="../../blog">Blog</a>
+            <a class="sidebar-nav-item" href="../../about">About</a>
+            <a class="sidebar-nav-item" href="../../archive.html">Archive</a>
+            <a class="sidebar-nav-item" href="../../categories/">Tags</a>
+            <a class="sidebar-nav-item" href="../../rss.xml">RSS feed</a>
+    
+    
+    </nav>
+</div>
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          
+    <h3 id="brand" class="masthead-title">
+      <a href="https://mrinalpurohit.in/" title="Through My Eyes" rel="home">Through My Eyes</a>
+    </h3>
+
+        </div>
+      </div>
+
+      <div class="container content" id="content">
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="post-title p-name entry-title" itemprop="headline name"><a href="." class="u-url">A short stint with Haskell</a></h1>
+
+        <div class="metadata">
+            <p class="dateline"><time class="post-date published dt-published" datetime="2017-01-03T00:32:37+05:30" itemprop="datePublished" title="03-Jan-2017 00:32">03-Jan-2017 00:32</time></p>
+                 <p class="commentline">
+        
+    <a href="#disqus_thread" data-disqus-identifier="cache/posts/a-short-stint-with-haskell.html">Comments</a>
+
+
+                <meta name="description" itemprop="description" content="A look at a different programming paradigm"></p>
+</div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div>
+<p>So my 3 months at Geekskool are up and I have decided to extend and learn more for probably 3 more months. Since my last post about the webserver, I have forayed into the land of functional programming to see what it offers and what the paradigm is all about. <!-- TEASER_END --></p>
+<p>I was suggested by Santosh to start with Haskell for a month or so and he provided me with a few resources. Also, as Mukesh has been doing Haskell for quite some time it was more helpful as he cleared up a lot of doubts I had when I started. The following are the sources I used:</p>
+<ul>
+<li><a href="https://hookrace.net/blog/a-taste-of-haskell/">A taste of Haskell</a></li>
+<li>
+<a href="http://haskellbook.com/">Haskell Programming from first principles</a> by Christopher Allen and Julie Moronuki</li>
+<li>
+<a href="https://leanpub.com/haskell-cookbook/">Haskell Tutorial and Cookbook</a> by Mark Watson</li>
+</ul>
+<p>I followed the Haskell Programming book extensively for all the concepts and the cookbook to learn code examples. Over the course of the month I read the following topics:</p>
+<ul>
+<li>Lambda calculus: the base of functional programming</li>
+<li>Basic data types, typeclasses: the type system</li>
+<li>Currying: functions which take one argument and return another function</li>
+<li>Polymorphism: functions which can take any type as input</li>
+<li>Pure Haskell programming: pure and impure(errors result due to this) functions</li>
+<li>Lazy evaluation: don't evaluate unless required</li>
+<li>Lists and operations on them: folding, zipping, comprehensions, and a bit of Haskell syntactic sugar for easier usage.</li>
+<li>Anonymous functions, pattern matching, case expressions.</li>
+<li>Function composition, recursion, point free style.</li>
+<li>Functors, applicatives, and monads.</li>
+</ul>
+<p>I eventually did a simple Cows and Bulls game in Haskell with two modes. One, where computer thinks(computes and stores) of a 4 digit number and the player has to guess it and the other mode where the player thinks of a number and the computer guesses(computes and filters) it. The code is on GitHub at <a href="https://github.com/iAmMrinal0/cowsAndBullsHask">Cows and Bulls</a>.</p>
+<p>Overall, I would say that it was harder to get into the language, due to the restrictions of the type system, however the mathematical concepts are fascinating. What I learnt is, to think of your problem and its types first and half of the problem is solved right there. I plan to revisit Haskell in the future when I have the time and the need to learn it.</p>
+<p>And my next plans are mostly get back to Python and do projects like web chat or video chat or an API wrapper. If not, I am looking at contributing to the <a href="https://github.com/geekskool/clean">Clean</a> programming language which a few students here at Geekskool are building, with the guidance of Santosh(it's his idea.) If I decide to join the <code>Clean</code> team, I need to learn JavaScript and see where I can contribute as the language is still in its nascent stage. Santosh has suggested to start with doing type inference and type checking, so I am looking forward to see how it all turns out.</p>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/clean/" rel="tag"> clean</a></li>
+            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/functional-programming/" rel="tag"> functional programming</a></li>
+            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/geekskool/" rel="tag"> geekskool</a></li>
+            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/haskell/" rel="tag"> haskell</a></li>
+            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/python/" rel="tag"> python</a></li>
+        </ul>
+<div class="pager hidden-print">
+            <p class="previous">
+                <a href="../a-webserver-in-python-using-asyncio/" rel="prev" title="A webserver in Python using Asyncio"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Previous</a>
+            </p>
+        </div>
+
+    </nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+        
+        
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="iammrinal0",
+            disqus_url="https://mrinalpurohit.in/blog/a-short-stint-with-haskell/",
+        disqus_title="A short stint with Haskell",
+        disqus_identifier="cache/posts/a-short-stint-with-haskell.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        </section></article><script>var disqus_shortname="iammrinal0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p></p>
+<hr>
+<a class="fa fa-github" href="https://github.com/iammrinal0" title="GitHub" target="_blank"></a><a class="fa fa-key" href="https://keybase.io/iammrinal0" title="Keybase" target="_blank"></a><a class="fa fa-linkedin" href="https://linkedin.com/in/iammrinal0" title="LinkedIn" target="_blank"></a><a class="fa" href="https://goodreads.com/iammrinal0" title="Goodreads" target="_blank">g</a><a class="fa fa-facebook-f" href="https://facebook.com/iammrinal0" title="Facebook" target="_blank"></a><a class="fa fa-twitter" href="https://twitter.com/iammrinal0" title="Twitter" target="_blank"></a><a class="fa fa-instagram" href="https://instagram.com/iammrinal0" title="Instagram" target="_blank"></a><br>© 2017         <a href="mailto:contact@mrinalpurohit.in">Mrinal Purohit</a> - Powered by        <a href="https://getnikola.com" rel="nofollow" target="_blank">Nikola</a> with <a href="https://github.com/iammrinal0/lanyon" target="_blank">Lanyon</a> theme
+            
+        </footer>
+</div>
+    </div>
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+    <script>
+      (function(document) {
+        var toggle = document.querySelector('.sidebar-toggle');
+        var sidebar = document.querySelector('#sidebar');
+        var checkbox = document.querySelector('#sidebar-checkbox');
+        document.addEventListener('click', function(e) {
+          var target = e.target;
+          if(!checkbox.checked ||
+             sidebar.contains(target) ||
+             (target === checkbox || target === toggle)) return;
+          checkbox.checked = false;
+        }, false);
+      })(document);
+    </script><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script><script src="../../assets/js/all.js"></script><script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-576133a19bcabb3e"></script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(2, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>
