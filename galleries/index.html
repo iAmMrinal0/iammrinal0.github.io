@@ -19,6 +19,15 @@
   ga('send', 'pageview');
 
 </script><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<style type="text/css">
+    .image-block {
+        display: inline-block;
+    }
+    .flowr_row {
+        width: 100%;
+    }
+    </style>
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
 </head>
 <body class="theme-base-22">
     <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -59,10 +68,12 @@
 <li>galleries</li>
 </ul></nav><h1>galleries</h1>
 
+<div id="gallery_container"></div>
+
         
         <footer id="footer"><p></p>
 <hr>
-<a class="fa fa-github" href="https://github.com/iammrinal0" title="GitHub" target="_blank"></a><a class="fa fa-key" href="https://keybase.io/iammrinal0" title="Keybase" target="_blank"></a><a class="fa fa-linkedin" href="https://linkedin.com/in/iammrinal0" title="LinkedIn" target="_blank"></a><a class="fa" href="https://goodreads.com/iammrinal0" title="Goodreads" target="_blank">g</a><a class="fa fa-facebook-f" href="https://facebook.com/iammrinal0" title="Facebook" target="_blank"></a><a class="fa fa-twitter" href="https://twitter.com/iammrinal0" title="Twitter" target="_blank"></a><a class="fa fa-instagram" href="https://instagram.com/iammrinal0" title="Instagram" target="_blank"></a><br>© 2016         <a href="mailto:contact@mrinalpurohit.in">Mrinal Purohit</a> - Powered by        <a href="https://getnikola.com" rel="nofollow" target="_blank">Nikola</a> with <a href="https://github.com/iammrinal0/lanyon" target="_blank">Lanyon</a> theme
+<a class="fa fa-github" href="https://github.com/iammrinal0" title="GitHub" target="_blank"></a><a class="fa fa-key" href="https://keybase.io/iammrinal0" title="Keybase" target="_blank"></a><a class="fa fa-linkedin" href="https://linkedin.com/in/iammrinal0" title="LinkedIn" target="_blank"></a><a class="fa" href="https://goodreads.com/iammrinal0" title="Goodreads" target="_blank">g</a><a class="fa fa-facebook-f" href="https://facebook.com/iammrinal0" title="Facebook" target="_blank"></a><a class="fa fa-twitter" href="https://twitter.com/iammrinal0" title="Twitter" target="_blank"></a><a class="fa fa-instagram" href="https://instagram.com/iammrinal0" title="Instagram" target="_blank"></a><br>© 2017         <a href="mailto:contact@mrinalpurohit.in">Mrinal Purohit</a> - Powered by        <a href="https://getnikola.com" rel="nofollow" target="_blank">Nikola</a> with <a href="https://github.com/iammrinal0/lanyon" target="_blank">Lanyon</a> theme
             
         </footer>
 </div>
@@ -84,6 +95,45 @@
     </script><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script><script src="../assets/js/all.js"></script><script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-576133a19bcabb3e"></script><!-- fancy dates --><script>
     moment.locale("en");
     fancydates(2, "YYYY-MM-DD HH:mm");
-    </script><!-- end fancy dates -->
+    </script><!-- end fancy dates --><script src="../assets/js/flowr.js"></script><script>
+jsonContent = [];
+flowr(document.querySelectorAll("#gallery_container")[0], {
+        data : jsonContent,
+        height : 180*.6,
+        padding: 5,
+        rows: -1,
+        render : function(params) {
+            // Just return a div, string or a dom object, anything works fine
+            var img = document.createElement("img");
+            img.setAttribute('src', params.itemData.url_thumb);
+            img.setAttribute('width', params.width);
+            img.setAttribute('height', params.height);
+            img.setAttribute('alt', params.itemData.title);
+            img.style.maxWidth = '100%';
+            link = document.createElement("a");
+            link.setAttribute('href', params.itemData.url);
+            link.setAttribute('class', 'image-reference');
+            div = document.createElement("div");
+            div.setAttribute('class', 'image-block');
+            div.setAttribute('title', params.itemData.title);
+            div.setAttribute('data-toggle', "tooltip")
+            link.append(img);
+            div.append(link);
+            //div.hover(div.tooltip());
+            return div;
+        },
+        itemWidth : function(data) { return data.size.w; },
+        itemHeight : function(data) { return data.size.h; },
+        complete : function(params) {
+            if( jsonContent.length > params.renderedItems ) {
+                nextRenderList = jsonContent.slice( params.renderedItems );
+            }
+        }
+    });
+    baguetteBox.run('#gallery_container', {
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+</script>
 </body>
 </html>

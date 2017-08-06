@@ -1,10 +1,10 @@
-<!-- 
+<!--
 .. title: A webserver in Python using Asyncio
 .. slug: a-webserver-in-python-using-asyncio
 .. date: 2016-11-16 10:12:18 UTC+05:30
 .. tags: python, geekskool, server, asyncio, threads, http
 .. category: technical
-.. link: 
+.. link:
 .. description: A webserver in Python using Asyncio
 .. type: text
 -->
