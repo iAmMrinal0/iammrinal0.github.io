@@ -130,22 +130,22 @@
 <p>Uh...oh! Any guesses what happened here?</p>
 <p><em>Explanation:</em> What Python does here is that it stores all integers from <code>-5</code> to <code>256</code> in memory because they are most frequently used and so it doesn't create new memory locations for those objects, therefore when you access a number in that range, Python just fetches it from memory and returns the value.</p>
 <p>Let me blow your mind even more with the following code:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" data-line-number="1">In [<span class="dv">15</span>]: <span class="bu">id</span>(<span class="dv">257</span>)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">Out[<span class="dv">15</span>]: <span class="dv">139944437173872</span></a>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" data-line-number="1">In [<span class="dv">13</span>]: <span class="bu">id</span>(<span class="dv">257</span>)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">Out[<span class="dv">13</span>]: <span class="dv">139944437173872</span></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">In [<span class="dv">16</span>]: <span class="bu">print</span>(<span class="bu">id</span>(<span class="dv">257</span>), <span class="bu">id</span>(<span class="dv">257</span>), <span class="bu">id</span>(<span class="dv">257</span>) <span class="op">==</span> <span class="bu">id</span>(<span class="dv">257</span>))</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">In [<span class="dv">14</span>]: <span class="bu">print</span>(<span class="bu">id</span>(<span class="dv">257</span>), <span class="bu">id</span>(<span class="dv">257</span>), <span class="bu">id</span>(<span class="dv">257</span>) <span class="op">==</span> <span class="bu">id</span>(<span class="dv">257</span>))</a>
 <a class="sourceLine" id="cb4-5" data-line-number="5"><span class="dv">139944437171184</span> <span class="dv">139944437171184</span> <span class="va">True</span></a></code></pre></div>
 <p>Woah, what kind of sorcery is this? You must be like, <em>"Hey, you just told me that numbers after <code>256</code> get a different address every time, so what happened here?"</em></p>
 <p><em>Explanation:</em> The reason is that when Python encounters constants in a single statement, it adds them to a dictionary and looks up in the dictionary for every constant. If it finds it in the dictionary, then it reuses the existing memory location. This is not the case in <code>In[5]</code> and <code>In[6]</code> because they are two separate statements.</p>
 <p>Let's take it up a notch and try exploring more:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb5-1" data-line-number="1">In [<span class="dv">17</span>]: <span class="kw">def</span> func():</a>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb5-1" data-line-number="1">In [<span class="dv">15</span>]: <span class="kw">def</span> func():</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">    ...:     a <span class="op">=</span> <span class="dv">257</span></a>
 <a class="sourceLine" id="cb5-3" data-line-number="3">    ...:     b <span class="op">=</span> <span class="dv">257</span></a>
 <a class="sourceLine" id="cb5-4" data-line-number="4">    ...:     <span class="cf">return</span> <span class="bu">id</span>(a) <span class="op">==</span> <span class="bu">id</span>(b)</a>
 <a class="sourceLine" id="cb5-5" data-line-number="5">    ...:</a>
 <a class="sourceLine" id="cb5-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7">In [<span class="dv">18</span>]: func()</a>
-<a class="sourceLine" id="cb5-8" data-line-number="8">Out[<span class="dv">18</span>]: <span class="va">True</span></a></code></pre></div>
+<a class="sourceLine" id="cb5-7" data-line-number="7">In [<span class="dv">16</span>]: func()</a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">Out[<span class="dv">16</span>]: <span class="va">True</span></a></code></pre></div>
 <p>We found that for numbers above <code>256</code>, Python stores them in new memory locations unless they are used in the same line/statement. However in the above example, they are separate statements and still return <code>True</code> when we compare the memory locations. So why the odd behaviour?</p>
 <p><em>Explanation:</em> The reason behind this is that within the same compiler scope like in a function or a class, everything is stored in a <code>constants</code> dictionary (<code>consts</code> in actual code) and hence any time a constant is encountered, it is first checked in the <code>constants</code> dictionary and if it's present then it doesn't store it in a new memory location and if not then goes ahead and stores it. Python's idea of optimization during compile time. I had this doubt for a long time which was later cleared by Prasanth Raghu, whom I met in one of the future meetups who also had been working with the CPython code for quite some time. Have a look at the following links to get a better understanding of the flow.</p>
 <ul>
