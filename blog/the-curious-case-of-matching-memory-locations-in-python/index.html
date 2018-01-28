@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " vocab="http://ogp.me/ns" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="What happens when you reuse constants in Python?">
+<meta name="viewport" content="width=device-width">
+<title>The Curious Case of Matching Memory Locations in Python • Mrinal Purohit</title>
+<link href="../../assets/css/all.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://mrinalpurohit.in/blog/the-curious-case-of-matching-memory-locations-in-python/">
+<link rel="icon" href="../../assets/images/favicon.ico" sizes="50x50">
+<!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script><![endif]--><script src="https://use.fontawesome.com/fa20058d35.js"></script><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-64263019-1', 'auto');
+  ga('send', 'pageview');
+
+</script><meta name="author" content="Mrinal Purohit">
+<link rel="prev" href="../a-short-stint-with-haskell/" title="A short stint with Haskell" type="text/html">
+<meta property="og:site_name" content="Through My Eyes">
+<meta property="og:title" content="The Curious Case of Matching Memory Locations in Python">
+<meta property="og:url" content="https://mrinalpurohit.in/blog/the-curious-case-of-matching-memory-locations-in-python/">
+<meta property="og:description" content="What happens when you reuse constants in Python?">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-05-21T16:31:28+05:30">
+<meta property="article:tag" content="cpython">
+<meta property="article:tag" content="memory">
+<meta property="article:tag" content="objects">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="tips">
+</head>
+<body class="theme-base-22">
+    <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+            styles, `#sidebar-checkbox` for behavior. -->
+    <input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox"><!-- Toggleable sidebar --><div class="sidebar" id="sidebar">
+        <div class="sidebar-item">
+            <img src="../../assets/images/face.jpg">
+</div>
+        
+    <nav id="menu" role="navigation" class="sidebar-nav"><a class="sidebar-nav-item" href="../../blog">Blog</a>
+            <a class="sidebar-nav-item" href="../../about">About</a>
+            <a class="sidebar-nav-item" href="../../archive.html">Archive</a>
+            <a class="sidebar-nav-item" href="../../categories/">Tags</a>
+            <a class="sidebar-nav-item" href="../../rss.xml">RSS feed</a>
+    
+    
+    </nav>
+</div>
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          
+    <h3 id="brand" class="masthead-title">
+      <a href="https://mrinalpurohit.in/" title="Through My Eyes" rel="home">Through My Eyes</a>
+    </h3>
+
+        </div>
+      </div>
+
+      <div class="container content" id="content">
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="post-title p-name entry-title" itemprop="headline name"><a href="." class="u-url">The Curious Case of Matching Memory Locations in Python</a></h1>
+
+        <div class="metadata">
+            <p class="dateline"><time class="post-date published dt-published" datetime="2017-05-21T16:31:28+05:30" itemprop="datePublished" title="21-May-2017 16:31">21-May-2017 16:31</time></p>
+                 <p class="commentline">
+        
+    <a href="#disqus_thread" data-disqus-identifier="cache/posts/the-curious-case-of-matching-memory-locations-in-python.html">Comments</a>
+
+
+                <meta name="description" itemprop="description" content="What happens when you reuse constants in Python?"></p>
+</div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <!-- 
+.. title: The Curious Case of Matching Memory Locations in Python
+.. slug: the-curious-case-of-matching-memory-locations-in-python
+.. date: 2017-05-21 16:31:28 UTC+05:30
+.. tags: python, memory, tips, objects, cpython
+.. category: technical
+.. link: 
+.. description: What happens when you reuse constants in Python?
+.. type: text
+-->
+
+<p>So I attended a Python <a href="https://www.meetup.com/BangPypers/events/238929256/">meetup</a> yesterday which was quite informative and one of the talks which I found fascinating was about <code>Cleaning the trash in Python</code> by Rivas. He starts his talk by explaining what is <code>trash</code> in programming sense, and goes on to compare memory allocation for objects and arrays in C and Python.</p>
+<!-- TEASER_END -->
+
+<p>So he mentions that when we create a value <code>100</code> and reuse it, Python will point it to the older reference of <code>100</code> as it already exists. He explains about finding memory locations of objects using the <code>id</code> method and how they point to the same memory location. What exactly does the <code>id</code> method do?</p>
+<p><code>id: Return identity of an object</code></p>
+<p>It returns the memory location of an object. This can be used to check if two objects point to the same location. So we will go right ahead and see a few quirks of Python using this.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" data-line-number="1">In [<span class="dv">1</span>]: a <span class="op">=</span> <span class="dv">100</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">In [<span class="dv">2</span>]: b <span class="op">=</span> <span class="dv">100</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">In [<span class="dv">3</span>]: <span class="bu">id</span>(a)</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">Out[<span class="dv">3</span>]: <span class="dv">139944507028096</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">In [<span class="dv">4</span>]: <span class="bu">id</span>(b)</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">Out[<span class="dv">4</span>]: <span class="dv">139944507028096</span></a></code></pre></div>
+<p>All is well and good in Python land, being memory efficient and all when we initialize something with <code>100</code>. Let's proceed:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb2-1" data-line-number="1">In [<span class="dv">5</span>]: c <span class="op">=</span> <span class="dv">257</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">In [<span class="dv">6</span>]: d <span class="op">=</span> <span class="dv">257</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">In [<span class="dv">7</span>]: <span class="bu">id</span>(c)</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">Out[<span class="dv">7</span>]: <span class="dv">139944437174032</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">In [<span class="dv">8</span>]: <span class="bu">id</span>(d)</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">Out[<span class="dv">8</span>]: <span class="dv">139944437170992</span></a></code></pre></div>
+<p>So what happened exactly? Let's try another example:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb3-1" data-line-number="1">In [<span class="dv">9</span>]: e <span class="op">=</span> <span class="dv">256</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">In [<span class="dv">10</span>]: f <span class="op">=</span> <span class="dv">256</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">In [<span class="dv">11</span>]: <span class="bu">id</span>(e)</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">Out[<span class="dv">11</span>]: <span class="dv">139944507033088</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">In [<span class="dv">12</span>]: <span class="bu">id</span>(f)</a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">Out[<span class="dv">12</span>]: <span class="dv">139944507033088</span></a></code></pre></div>
+<p>Uh...oh! Any guesses what happened here?</p>
+<p><em>Explanation:</em> What Python does here is that it stores all integers from <code>-5</code> to <code>256</code> in memory because they are most frequently used and so it doesn't create new memory locations for those objects, therefore when you access a number in that range, Python just fetches it from memory and returns the value.</p>
+<p>Let me blow your mind even more with the following code:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" data-line-number="1">In [<span class="dv">15</span>]: <span class="bu">id</span>(<span class="dv">257</span>)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">Out[<span class="dv">15</span>]: <span class="dv">139944437173872</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">In [<span class="dv">16</span>]: <span class="bu">print</span>(<span class="bu">id</span>(<span class="dv">257</span>), <span class="bu">id</span>(<span class="dv">257</span>), <span class="bu">id</span>(<span class="dv">257</span>) <span class="op">==</span> <span class="bu">id</span>(<span class="dv">257</span>))</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="dv">139944437171184</span> <span class="dv">139944437171184</span> <span class="va">True</span></a></code></pre></div>
+<p>Woah, what kind of sorcery is this? You must be like, <em>"Hey, you just told me that numbers after <code>256</code> get a different address every time, so what happened here?"</em></p>
+<p><em>Explanation:</em> The reason is that when Python encounters constants in a single statement, it adds them to a dictionary and looks up in the dictionary for every constant. If it finds it in the dictionary, then it reuses the existing memory location. This is not the case in <code>In[5]</code> and <code>In[6]</code> because they are two separate statements.</p>
+<p>Let's take it up a notch and try exploring more:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb5-1" data-line-number="1">In [<span class="dv">17</span>]: <span class="kw">def</span> func():</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">    ...:     a <span class="op">=</span> <span class="dv">257</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">    ...:     b <span class="op">=</span> <span class="dv">257</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">    ...:     <span class="cf">return</span> <span class="bu">id</span>(a) <span class="op">==</span> <span class="bu">id</span>(b)</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">    ...:</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">In [<span class="dv">18</span>]: func()</a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">Out[<span class="dv">18</span>]: <span class="va">True</span></a></code></pre></div>
+<p>We found that for numbers above <code>256</code>, Python stores them in new memory locations unless they are used in the same line/statement. However in the above example, they are separate statements and still return <code>True</code> when we compare the memory locations. So why the odd behaviour?</p>
+<p><em>Explanation:</em> The reason behind this is that within the same compiler scope like in a function or a class, everything is stored in a <code>constants</code> dictionary (<code>consts</code> in actual code) and hence any time a constant is encountered, it is first checked in the <code>constants</code> dictionary and if it's present then it doesn't store it in a new memory location and if not then goes ahead and stores it. Python's idea of optimization during compile time. I had this doubt for a long time which was later cleared by Prasanth Raghu, whom I met in one of the future meetups who also had been working with the CPython code for quite some time. Have a look at the following links to get a better understanding of the flow.</p>
+<ul>
+<li>The program starts in the <code>compiler_function</code>: <a href="https://github.com/python/cpython/blob/95e4d589137260530e18ef98a2ed84ee3ec57e12/Python/compile.c#L1845">link</a>
+</li>
+<li>Reaches <code>VISIT_SEQ_IN_SCOPE</code> function call: <a href="https://github.com/python/cpython/blob/95e4d589137260530e18ef98a2ed84ee3ec57e12/Python/compile.c#L1911">link</a>
+</li>
+<li>Inside the <code>if</code> condition of <code>VISIT_SEQ_IN_SCOPE</code> calls <code>compiler_visit_stmt</code>: <a href="https://github.com/python/cpython/blob/95e4d589137260530e18ef98a2ed84ee3ec57e12/Python/compile.c#L1358">link</a>
+</li>
+<li>Evaluates to <code>Assign_kind</code>: <a href="https://github.com/python/cpython/blob/95e4d589137260530e18ef98a2ed84ee3ec57e12/Python/compile.c#L2980">link</a>
+</li>
+<li>Reaches <code>VISIT</code> function call: <a href="https://github.com/python/cpython/blob/95e4d589137260530e18ef98a2ed84ee3ec57e12/Python/compile.c#L2982">link</a>
+</li>
+<li>Function definition of <code>VISIT</code>: <a href="https://github.com/python/cpython/blob/95e4d589137260530e18ef98a2ed84ee3ec57e12/Python/compile.c#L1326">link</a>
+</li>
+<li>Goes to <code>compiler_visit_expr</code>: <a href="https://github.com/python/cpython/blob/95e4d589137260530e18ef98a2ed84ee3ec57e12/Python/compile.c#L4376">link</a>
+</li>
+<li>The statement is a <code>Num_kind</code> so it calls <code>ADDOP_O</code>: <a href="https://github.com/python/cpython/blob/95e4d589137260530e18ef98a2ed84ee3ec57e12/Python/compile.c#L4459">link</a>. <code>consts</code> is used here which comes from the following links:
+<ul>
+<li>Definition of <code>*u_consts</code>: <a href="https://github.com/python/cpython/blob/95e4d589137260530e18ef98a2ed84ee3ec57e12/Python/compile.c#L114">link</a>
+</li>
+<li>Store it in <code>tmp</code>: <a href="https://github.com/python/cpython/blob/95e4d589137260530e18ef98a2ed84ee3ec57e12/Python/compile.c#L5369">link</a>
+</li>
+<li>The <code>consts</code> dictionary: <a href="https://github.com/python/cpython/blob/95e4d589137260530e18ef98a2ed84ee3ec57e12/Python/compile.c#L5372">link</a>
+</li>
+</ul>
+</li>
+<li>This internally calls <code>compiler_addop_o</code>: <a href="https://github.com/python/cpython/blob/95e4d589137260530e18ef98a2ed84ee3ec57e12/Python/compile.c#L1288">link</a>
+</li>
+<li>Calls the <code>compiler_add_o</code> function: <a href="https://github.com/python/cpython/blob/95e4d589137260530e18ef98a2ed84ee3ec57e12/Python/compile.c#L1192">link</a>
+</li>
+<li>Fetch from dictionary and return if exists: <a href="https://github.com/python/cpython/blob/95e4d589137260530e18ef98a2ed84ee3ec57e12/Python/compile.c#L1163">link</a>
+</li>
+</ul>
+<p>Hope the flow is clear, and do let me know if something was confusing.</p>
+<h2 id="references">References</h2>
+<ul>
+<li>Video of the talk by Rivas on <a href="https://www.youtube.com/watch?v=_YRHkn-f24k">YouTube</a>
+</li>
+<li>
+<a href="https://docs.python.org/3/c-api/long.html#c.PyLong_FromLong">Python Docs</a> relating to integer objects in memory.</li>
+<li><a href="https://stackoverflow.com/questions/22975073/what-does-double-hash-do-in-a-preprocessor-directive">Understanding <code>##</code> in C</a></li>
+</ul>
+</div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/cpython/" rel="tag"> cpython</a></li>
+            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/memory/" rel="tag"> memory</a></li>
+            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/objects/" rel="tag"> objects</a></li>
+            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/python/" rel="tag"> python</a></li>
+            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/tips/" rel="tag"> tips</a></li>
+        </ul>
+<div class="pager hidden-print">
+            <p class="previous">
+                <a href="../a-short-stint-with-haskell/" rel="prev" title="A short stint with Haskell"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Previous</a>
+            </p>
+        </div>
+
+    </nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+        
+        
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="iammrinal0",
+            disqus_url="https://mrinalpurohit.in/blog/the-curious-case-of-matching-memory-locations-in-python/",
+        disqus_title="The Curious Case of Matching Memory Locations in Python",
+        disqus_identifier="cache/posts/the-curious-case-of-matching-memory-locations-in-python.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        </section></article><script>var disqus_shortname="iammrinal0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p></p>
+<hr>
+<a class="fa fa-github" href="https://github.com/iammrinal0" title="GitHub" target="_blank"></a><a class="fa fa-key" href="https://keybase.io/iammrinal0" title="Keybase" target="_blank"></a><a class="fa fa-linkedin" href="https://linkedin.com/in/iammrinal0" title="LinkedIn" target="_blank"></a><a class="fa" href="https://goodreads.com/iammrinal0" title="Goodreads" target="_blank">g</a><a class="fa fa-facebook-f" href="https://facebook.com/iammrinal0" title="Facebook" target="_blank"></a><a class="fa fa-twitter" href="https://twitter.com/iammrinal0" title="Twitter" target="_blank"></a><a class="fa fa-instagram" href="https://instagram.com/iammrinal0" title="Instagram" target="_blank"></a><br>© 2018         <a href="mailto:contact@mrinalpurohit.in">Mrinal Purohit</a> - Powered by        <a href="https://getnikola.com" rel="nofollow" target="_blank">Nikola</a> with <a href="https://github.com/iammrinal0/lanyon" target="_blank">Lanyon</a> theme
+            
+        </footer>
+</div>
+    </div>
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+    <script>
+      (function(document) {
+        var toggle = document.querySelector('.sidebar-toggle');
+        var sidebar = document.querySelector('#sidebar');
+        var checkbox = document.querySelector('#sidebar-checkbox');
+        document.addEventListener('click', function(e) {
+          var target = e.target;
+          if(!checkbox.checked ||
+             sidebar.contains(target) ||
+             (target === checkbox || target === toggle)) return;
+          checkbox.checked = false;
+        }, false);
+      })(document);
+    </script><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script><script src="../../assets/js/all.js"></script><script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-576133a19bcabb3e"></script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(2, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

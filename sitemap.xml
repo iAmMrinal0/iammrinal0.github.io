@@ -19,7 +19,7 @@
  </url>
  <url>
   <loc>https://mrinalpurohit.in/404.html</loc>
-  <lastmod>2018-01-26T21:42:00Z</lastmod>
+  <lastmod>2018-01-28T14:51:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/about/</loc>
@@ -27,11 +27,11 @@
  </url>
  <url>
   <loc>https://mrinalpurohit.in/archive.html</loc>
-  <lastmod>2018-01-28T14:37:00Z</lastmod>
+  <lastmod>2018-01-28T15:06:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/blog/</loc>
-  <lastmod>2018-01-28T14:25:00Z</lastmod>
+  <lastmod>2018-01-28T14:45:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/blog/a-reliable-device-dies-finally/</loc>
@@ -58,12 +58,16 @@
   <lastmod>2018-01-28T14:32:00Z</lastmod>
  </url>
  <url>
+  <loc>https://mrinalpurohit.in/blog/the-curious-case-of-matching-memory-locations-in-python/</loc>
+  <lastmod>2018-01-28T14:40:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://mrinalpurohit.in/blog/the-month-that-was-september/</loc>
   <lastmod>2018-01-28T14:32:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/categories/</loc>
-  <lastmod>2018-01-28T14:32:00Z</lastmod>
+  <lastmod>2018-01-28T14:40:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/categories/android/</loc>
@@ -96,6 +100,10 @@
  <url>
   <loc>https://mrinalpurohit.in/categories/clean/</loc>
   <lastmod>2018-01-14T13:38:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://mrinalpurohit.in/categories/cpython/</loc>
+  <lastmod>2018-01-28T14:40:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/categories/farewell/</loc>
@@ -154,6 +162,10 @@
   <lastmod>2018-01-14T13:38:00Z</lastmod>
  </url>
  <url>
+  <loc>https://mrinalpurohit.in/categories/memory/</loc>
+  <lastmod>2018-01-28T14:40:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://mrinalpurohit.in/categories/microsoft/</loc>
   <lastmod>2018-01-14T13:38:00Z</lastmod>
  </url>
@@ -168,6 +180,10 @@
  <url>
   <loc>https://mrinalpurohit.in/categories/novels/</loc>
   <lastmod>2018-01-14T13:38:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://mrinalpurohit.in/categories/objects/</loc>
+  <lastmod>2018-01-28T14:40:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/categories/pelican/</loc>
@@ -200,6 +216,10 @@
  <url>
   <loc>https://mrinalpurohit.in/categories/threads/</loc>
   <lastmod>2018-01-14T13:38:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://mrinalpurohit.in/categories/tips/</loc>
+  <lastmod>2018-01-28T14:40:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/categories/windows-mobile/</loc>
