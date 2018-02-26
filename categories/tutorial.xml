@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Through My Eyes (Posts about tutorial)</title><link>https://mrinalpurohit.in/</link><description></description><atom:link href="https://mrinalpurohit.in/categories/tutorial.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 26 Feb 2018 21:10:01 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Moving from Markdown to Pandoc in Nikola</title><link>https://mrinalpurohit.in/blog/moving-from-markdown-to-pandoc-in-nikola/</link><dc:creator>Mrinal Purohit</dc:creator><description>&lt;div&gt;&lt;!--
+.. title: Moving from Markdown to Pandoc in Nikola
+.. slug: moving-from-markdown-to-pandoc-in-nikola
+.. date: 2018-01-27 18:49:53 UTC+05:30
+.. tags: markdown, pandoc, hacks, tutorial, nikola, haskell, python, kate, pygments
+.. category: technical
+.. link:
+.. description: Steps to move from Markdown to Pandoc in Nikola
+.. type: text
+--&gt;
+
+&lt;p&gt;So, the other day there was a hackathon at Geekskool and all the students were building something from the range of UNO bot, jump forms(feedback forms but better), and an app which detects code from an image and analyses/executes the same and there I was, wondering how to properly format nested lists in Markdown for one of my &lt;a href="https://mrinalpurohit.in/blog/the-curious-case-of-matching-memory-locations-in-python/"&gt;posts.&lt;/a&gt; &lt;/p&gt;&lt;p&gt;&lt;a href="https://mrinalpurohit.in/blog/moving-from-markdown-to-pandoc-in-nikola/"&gt;Read more…&lt;/a&gt; (2 min remaining to read)&lt;/p&gt;&lt;/div&gt;</description><category>hacks</category><category>haskell</category><category>kate</category><category>markdown</category><category>nikola</category><category>pandoc</category><category>pygments</category><category>python</category><category>tutorial</category><guid>https://mrinalpurohit.in/blog/moving-from-markdown-to-pandoc-in-nikola/</guid><pubDate>Sat, 27 Jan 2018 13:19:53 GMT</pubDate></item></channel></rss>

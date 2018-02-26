@@ -7,7 +7,7 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>https://mrinalpurohit.in/</loc>
-  <lastmod>2018-01-28T14:32:00Z</lastmod>
+  <lastmod>2018-02-26T13:45:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/2016/</loc>
@@ -16,6 +16,10 @@
  <url>
   <loc>https://mrinalpurohit.in/2017/</loc>
   <lastmod>2018-01-26T20:36:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://mrinalpurohit.in/2018/</loc>
+  <lastmod>2018-02-26T13:45:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/404.html</loc>
@@ -27,11 +31,11 @@
  </url>
  <url>
   <loc>https://mrinalpurohit.in/archive.html</loc>
-  <lastmod>2018-01-28T15:06:00Z</lastmod>
+  <lastmod>2018-02-26T13:45:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/blog/</loc>
-  <lastmod>2018-01-28T14:45:00Z</lastmod>
+  <lastmod>2018-02-26T13:45:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/blog/a-reliable-device-dies-finally/</loc>
@@ -48,6 +52,10 @@
  <url>
   <loc>https://mrinalpurohit.in/blog/init/</loc>
   <lastmod>2018-01-28T14:32:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://mrinalpurohit.in/blog/moving-from-markdown-to-pandoc-in-nikola/</loc>
+  <lastmod>2018-02-26T13:45:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/blog/nikola-a-new-learning-experience/</loc>
@@ -67,7 +75,7 @@
  </url>
  <url>
   <loc>https://mrinalpurohit.in/categories/</loc>
-  <lastmod>2018-01-28T14:40:00Z</lastmod>
+  <lastmod>2018-02-26T21:01:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/categories/android/</loc>
@@ -130,6 +138,10 @@
   <lastmod>2018-01-14T13:38:00Z</lastmod>
  </url>
  <url>
+  <loc>https://mrinalpurohit.in/categories/hacks/</loc>
+  <lastmod>2018-02-26T13:45:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://mrinalpurohit.in/categories/haskell/</loc>
   <lastmod>2018-01-14T13:38:00Z</lastmod>
  </url>
@@ -150,6 +162,10 @@
   <lastmod>2018-01-14T13:38:00Z</lastmod>
  </url>
  <url>
+  <loc>https://mrinalpurohit.in/categories/kate/</loc>
+  <lastmod>2018-02-26T21:01:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://mrinalpurohit.in/categories/learn/</loc>
   <lastmod>2018-01-14T13:38:00Z</lastmod>
  </url>
@@ -160,6 +176,10 @@
  <url>
   <loc>https://mrinalpurohit.in/categories/lumia/</loc>
   <lastmod>2018-01-14T13:38:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://mrinalpurohit.in/categories/markdown/</loc>
+  <lastmod>2018-02-26T13:45:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/categories/memory/</loc>
@@ -186,12 +206,20 @@
   <lastmod>2018-01-28T14:40:00Z</lastmod>
  </url>
  <url>
+  <loc>https://mrinalpurohit.in/categories/pandoc/</loc>
+  <lastmod>2018-02-26T13:45:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://mrinalpurohit.in/categories/pelican/</loc>
   <lastmod>2018-01-14T13:38:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/categories/phones/</loc>
   <lastmod>2018-01-14T13:38:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://mrinalpurohit.in/categories/pygments/</loc>
+  <lastmod>2018-02-26T21:01:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/categories/python/</loc>
@@ -220,6 +248,10 @@
  <url>
   <loc>https://mrinalpurohit.in/categories/tips/</loc>
   <lastmod>2018-01-28T14:40:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://mrinalpurohit.in/categories/tutorial/</loc>
+  <lastmod>2018-02-26T16:04:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/categories/windows-mobile/</loc>

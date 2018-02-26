@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " vocab="http://ogp.me/ns" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Steps to move from Markdown to Pandoc in Nikola">
+<meta name="viewport" content="width=device-width">
+<title>Moving from Markdown to Pandoc in Nikola • Mrinal Purohit</title>
+<link href="../../assets/css/all.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://mrinalpurohit.in/blog/moving-from-markdown-to-pandoc-in-nikola/">
+<link rel="icon" href="../../assets/images/favicon.ico" sizes="50x50">
+<!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script><![endif]--><script src="https://use.fontawesome.com/fa20058d35.js"></script><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-64263019-1', 'auto');
+  ga('send', 'pageview');
+
+</script><meta name="author" content="Mrinal Purohit">
+<link rel="prev" href="../the-curious-case-of-matching-memory-locations-in-python/" title="The Curious Case of Matching Memory Locations in Python" type="text/html">
+<meta property="og:site_name" content="Through My Eyes">
+<meta property="og:title" content="Moving from Markdown to Pandoc in Nikola">
+<meta property="og:url" content="https://mrinalpurohit.in/blog/moving-from-markdown-to-pandoc-in-nikola/">
+<meta property="og:description" content="Steps to move from Markdown to Pandoc in Nikola">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2018-01-27T18:49:53+05:30">
+<meta property="article:tag" content="hacks">
+<meta property="article:tag" content="haskell">
+<meta property="article:tag" content="kate">
+<meta property="article:tag" content="markdown">
+<meta property="article:tag" content="nikola">
+<meta property="article:tag" content="pandoc">
+<meta property="article:tag" content="pygments">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="tutorial">
+</head>
+<body class="theme-base-22">
+    <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+            styles, `#sidebar-checkbox` for behavior. -->
+    <input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox"><!-- Toggleable sidebar --><div class="sidebar" id="sidebar">
+        <div class="sidebar-item">
+            <img src="../../assets/images/face.jpg">
+</div>
+        
+    <nav id="menu" role="navigation" class="sidebar-nav"><a class="sidebar-nav-item" href="../../blog">Blog</a>
+            <a class="sidebar-nav-item" href="../../about">About</a>
+            <a class="sidebar-nav-item" href="../../archive.html">Archive</a>
+            <a class="sidebar-nav-item" href="../../categories/">Tags</a>
+            <a class="sidebar-nav-item" href="../../rss.xml">RSS feed</a>
+    
+    
+    </nav>
+</div>
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          
+    <h3 id="brand" class="masthead-title">
+      <a href="https://mrinalpurohit.in/" title="Through My Eyes" rel="home">Through My Eyes</a>
+    </h3>
+
+        </div>
+      </div>
+
+      <div class="container content" id="content">
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="post-title p-name entry-title" itemprop="headline name"><a href="." class="u-url">Moving from Markdown to Pandoc in Nikola</a></h1>
+
+        <div class="metadata">
+            <p class="dateline"><time class="post-date published dt-published" datetime="2018-01-27T18:49:53+05:30" itemprop="datePublished" title="27-Jan-2018 18:49">27-Jan-2018 18:49</time></p>
+                 <p class="commentline">
+        
+    <a href="#disqus_thread" data-disqus-identifier="cache/posts/moving-from-markdown-to-pandoc-in-nikola.html">Comments</a>
+
+
+                <meta name="description" itemprop="description" content="Steps to move from Markdown to Pandoc in Nikola"></p>
+</div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <!--
+.. title: Moving from Markdown to Pandoc in Nikola
+.. slug: moving-from-markdown-to-pandoc-in-nikola
+.. date: 2018-01-27 18:49:53 UTC+05:30
+.. tags: markdown, pandoc, hacks, tutorial, nikola, haskell, python, kate, pygments
+.. category: technical
+.. link:
+.. description: Steps to move from Markdown to Pandoc in Nikola
+.. type: text
+-->
+
+<p>So, the other day there was a hackathon at Geekskool and all the students were building something from the range of UNO bot, jump forms(feedback forms but better), and an app which detects code from an image and analyses/executes the same and there I was, wondering how to properly format nested lists in Markdown for one of my <a href="../the-curious-case-of-matching-memory-locations-in-python/">posts.</a> <!-- TEASER_END --></p>
+<p>And thus started a long search of how to solve the issue of getting nested unordered lists in Nikola(which is a static site generator I use for this site.) So first things first, what does Nikola use to parse Markdown to HTML? Nikola docs say that it uses <code>markdown</code> by <code>Python-Markdown</code> found on <a href="https://github.com/Python-Markdown/markdown">GitHub</a> and I started checking for open issues, if any, about nested lists and I found <a href="https://github.com/Python-Markdown/markdown/issues/3">one</a> where the maintainer suggests to use 4 spaces for nested lists to work. And when I tried it, it looked bad with too much of space and hence I searched for alternative tools which supported GitHub-Flavored Markdown with the condition that I shouldn't have to make major changes to my existing setup.</p>
+<p>That's when I came across Pandoc(though I had heard about it), I finally found a proper use case. Let's get started and solve the nested lists problem and whatever else that may come our way.</p>
+<p>Install pandoc based on instructions from the <a href="https://pandoc.org/installing.html">official site.</a></p>
+<p>Following are the modifications to be made to the <code>conf.py</code> file of your Nikola site:</p>
+<ul>
+<li>Comment the <code>markdown</code> compiler and uncomment the <code>pandoc</code> compiler in the <code>COMPILERS</code> variable.</li>
+<li>Uncomment <code>PANDOC_OPTIONS</code> variable and add <code>-f, gfm</code> to the array; <code>-f/--from</code> means the input format flag which is GitHub-Flavored Markdown hence the <code>gfm</code>.</li>
+</ul>
+<p>And that's it, now when you build your site, Nikola will use pandoc and generate the site for you. However, there's a caveat. If you have any code blocks, the code highlighting theme doesn't seem to work now because the way pandoc generates is different than how Nikola expects it. A bit of info:</p>
+<ul>
+<li>Markdown file runs through the <code>markdown</code> compiler which gives <code>body</code> part of the HTML and then Nikola inserts the rest of the <code>head</code> and templated content and applies the style using <a href="http://pygments.org/">Pygments.</a>
+</li>
+<li>Whereas, Pandoc generates a complete HTML file with <code>head</code> and <code>style</code> information which Nikola unfortunately ignores and takes only whatever is inside the <code>body</code> tag and generates the final HTML with the templated content.</li>
+</ul>
+<p>What we want is to preserve the style information so that code highlighting remains as how we want it. And so, started perusing the pandoc docs to be kind of disappointed that style information could not be generated as a standalone file as an input to Nikola. So, what I ended up doing is generate a dummy output file with some code as input to pandoc. Copy the following code snippet(or write some code of your choice) and paste it in a new file as <code>input.md</code>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">def</span> func():</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">    a <span class="op">=</span> <span class="dv">100</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">    b <span class="op">=</span> <span class="st">"hello"</span>.split()</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">    c <span class="op">=</span> [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>].join(<span class="st">''</span>)</a></code></pre></div>
+<p>And run the following command:</p>
+<p><code>$ pandoc -f gfm -o output.html input.md --highlight-style=kate -s</code></p>
+<p>I personally like the <code>kate</code> theme and for a list of supported themes check out the <code>--highlight-style</code> flag in the <a href="https://pandoc.org/MANUAL.html#general-writer-options">Pandoc docs.</a></p>
+<p>Now that you have a generated <code>output.html</code>, open it and copy the generated <code>style</code> information i.e. content inside the <code>&lt;style&gt;</code> tags and paste them in the end at <code>assets/css/custom.css</code></p>
+<p>After building your site, you should now see the syntax highlighted in the color theme that you selected while using pandoc. Currently, a minor hurdle is that whenever you want to change to a different theme, you should generate the style information and copy paste the CSS from the output HTML file.</p>
+<p>So we have moved our Nikola site from <code>markdown</code> to <code>pandoc</code> compiler with proper syntax highlighting.</p>
+<p>References:</p>
+<ul>
+<li>CSS for Kate theme used in this site: <a href="https://github.com/iAmMrinal0/iammrinal0.github.io/commit/20445519e447d4c0a04a5efc086fe1e6a9082a7f#diff-311a161192e4ffa168423a7a9943b548">link</a>
+</li>
+</ul>
+</div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/hacks/" rel="tag"> hacks</a></li>
+            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/haskell/" rel="tag"> haskell</a></li>
+            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/kate/" rel="tag"> kate</a></li>
+            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/markdown/" rel="tag"> markdown</a></li>
+            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/nikola/" rel="tag"> nikola</a></li>
+            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/pandoc/" rel="tag"> pandoc</a></li>
+            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/pygments/" rel="tag"> pygments</a></li>
+            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/python/" rel="tag"> python</a></li>
+            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/tutorial/" rel="tag"> tutorial</a></li>
+        </ul>
+<div class="pager hidden-print">
+            <p class="previous">
+                <a href="../the-curious-case-of-matching-memory-locations-in-python/" rel="prev" title="The Curious Case of Matching Memory Locations in Python"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Previous</a>
+            </p>
+        </div>
+
+    </nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+        
+        
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="iammrinal0",
+            disqus_url="https://mrinalpurohit.in/blog/moving-from-markdown-to-pandoc-in-nikola/",
+        disqus_title="Moving from Markdown to Pandoc in Nikola",
+        disqus_identifier="cache/posts/moving-from-markdown-to-pandoc-in-nikola.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        </section></article><script>var disqus_shortname="iammrinal0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p></p>
+<hr>
+<a class="fa fa-github" href="https://github.com/iammrinal0" title="GitHub" target="_blank"></a><a class="fa fa-key" href="https://keybase.io/iammrinal0" title="Keybase" target="_blank"></a><a class="fa fa-linkedin" href="https://linkedin.com/in/iammrinal0" title="LinkedIn" target="_blank"></a><a class="fa" href="https://goodreads.com/iammrinal0" title="Goodreads" target="_blank">g</a><a class="fa fa-facebook-f" href="https://facebook.com/iammrinal0" title="Facebook" target="_blank"></a><a class="fa fa-twitter" href="https://twitter.com/iammrinal0" title="Twitter" target="_blank"></a><a class="fa fa-instagram" href="https://instagram.com/iammrinal0" title="Instagram" target="_blank"></a><br>© 2018         <a href="mailto:contact@mrinalpurohit.in">Mrinal Purohit</a> - Powered by        <a href="https://getnikola.com" rel="nofollow" target="_blank">Nikola</a> with <a href="https://github.com/iammrinal0/lanyon" target="_blank">Lanyon</a> theme
+            
+        </footer>
+</div>
+    </div>
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+    <script>
+      (function(document) {
+        var toggle = document.querySelector('.sidebar-toggle');
+        var sidebar = document.querySelector('#sidebar');
+        var checkbox = document.querySelector('#sidebar-checkbox');
+        document.addEventListener('click', function(e) {
+          var target = e.target;
+          if(!checkbox.checked ||
+             sidebar.contains(target) ||
+             (target === checkbox || target === toggle)) return;
+          checkbox.checked = false;
+        }, false);
+      })(document);
+    </script><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script><script src="../../assets/js/all.js"></script><script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-576133a19bcabb3e"></script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(2, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>
