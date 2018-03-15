@@ -31,11 +31,11 @@
  </url>
  <url>
   <loc>https://mrinalpurohit.in/archive.html</loc>
-  <lastmod>2018-02-26T13:45:00Z</lastmod>
+  <lastmod>2018-02-28T15:39:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/blog/</loc>
-  <lastmod>2018-02-26T13:45:00Z</lastmod>
+  <lastmod>2018-02-28T15:39:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/blog/a-reliable-device-dies-finally/</loc>
@@ -74,8 +74,12 @@
   <lastmod>2018-01-28T14:32:00Z</lastmod>
  </url>
  <url>
+  <loc>https://mrinalpurohit.in/blog/using-lenses-in-purescript/</loc>
+  <lastmod>2018-02-28T15:39:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://mrinalpurohit.in/categories/</loc>
-  <lastmod>2018-02-26T21:01:00Z</lastmod>
+  <lastmod>2018-02-28T15:54:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/categories/android/</loc>
@@ -158,6 +162,10 @@
   <lastmod>2018-01-14T13:38:00Z</lastmod>
  </url>
  <url>
+  <loc>https://mrinalpurohit.in/categories/javascript/</loc>
+  <lastmod>2018-02-28T15:54:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://mrinalpurohit.in/categories/jekyll/</loc>
   <lastmod>2018-01-14T13:38:00Z</lastmod>
  </url>
@@ -168,6 +176,10 @@
  <url>
   <loc>https://mrinalpurohit.in/categories/learn/</loc>
   <lastmod>2018-01-14T13:38:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://mrinalpurohit.in/categories/lenses/</loc>
+  <lastmod>2018-02-28T15:39:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/categories/lumia-920/</loc>
@@ -216,6 +228,10 @@
  <url>
   <loc>https://mrinalpurohit.in/categories/phones/</loc>
   <lastmod>2018-01-14T13:38:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://mrinalpurohit.in/categories/purescript/</loc>
+  <lastmod>2018-02-28T15:39:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/categories/pygments/</loc>

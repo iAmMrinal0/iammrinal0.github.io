@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " vocab="http://ogp.me/ns" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="How to use Lenses in PureScript">
+<meta name="viewport" content="width=device-width">
+<title>Using Lenses in PureScript • Mrinal Purohit</title>
+<link href="../../assets/css/all.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://mrinalpurohit.in/blog/using-lenses-in-purescript/">
+<link rel="icon" href="../../assets/images/favicon.ico" sizes="50x50">
+<!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script><![endif]--><script src="https://use.fontawesome.com/fa20058d35.js"></script><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-64263019-1', 'auto');
+  ga('send', 'pageview');
+
+</script><meta name="author" content="Mrinal Purohit">
+<link rel="prev" href="../moving-from-markdown-to-pandoc-in-nikola/" title="Moving from Markdown to Pandoc in Nikola" type="text/html">
+<meta property="og:site_name" content="Through My Eyes">
+<meta property="og:title" content="Using Lenses in PureScript">
+<meta property="og:url" content="https://mrinalpurohit.in/blog/using-lenses-in-purescript/">
+<meta property="og:description" content="How to use Lenses in PureScript">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2018-02-28T14:23:53+05:30">
+<meta property="article:tag" content="haskell">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="lenses">
+<meta property="article:tag" content="purescript">
+<meta property="article:tag" content="tutorial">
+</head>
+<body class="theme-base-22">
+    <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+            styles, `#sidebar-checkbox` for behavior. -->
+    <input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox"><!-- Toggleable sidebar --><div class="sidebar" id="sidebar">
+        <div class="sidebar-item">
+            <img src="../../assets/images/face.jpg">
+</div>
+        
+    <nav id="menu" role="navigation" class="sidebar-nav"><a class="sidebar-nav-item" href="../../blog">Blog</a>
+            <a class="sidebar-nav-item" href="../../about">About</a>
+            <a class="sidebar-nav-item" href="../../archive.html">Archive</a>
+            <a class="sidebar-nav-item" href="../../categories/">Tags</a>
+            <a class="sidebar-nav-item" href="../../rss.xml">RSS feed</a>
+    
+    
+    </nav>
+</div>
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          
+    <h3 id="brand" class="masthead-title">
+      <a href="https://mrinalpurohit.in/" title="Through My Eyes" rel="home">Through My Eyes</a>
+    </h3>
+
+        </div>
+      </div>
+
+      <div class="container content" id="content">
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="post-title p-name entry-title" itemprop="headline name"><a href="." class="u-url">Using Lenses in PureScript</a></h1>
+
+        <div class="metadata">
+            <p class="dateline"><time class="post-date published dt-published" datetime="2018-02-28T14:23:53+05:30" itemprop="datePublished" title="28-Feb-2018 14:23">28-Feb-2018 14:23</time></p>
+                 <p class="commentline">
+        
+    <a href="#disqus_thread" data-disqus-identifier="cache/posts/using-lenses-in-purescript.html">Comments</a>
+
+
+                <meta name="description" itemprop="description" content="How to use Lenses in PureScript"></p>
+</div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <!--
+.. title: Using Lenses in PureScript
+.. slug: using-lenses-in-purescript
+.. date: 2018-02-28 14:23:53 UTC+05:30
+.. tags: lenses, haskell, purescript, tutorial, javascript
+.. category: technical
+.. link:
+.. description: How to use Lenses in PureScript
+.. type: text
+-->
+
+<p>I believe we all have come across interesting problems while programming and once we found the solution or an easier way to do it, we had our minds blown away. I had a similar feeling when I discovered <code>lenses</code> and started using them. No, I am not talking about <!-- TEASER_END --> my glasses or eye lenses. I am talking about <code>lenses</code> in <a href="https://github.com/ekmett/lens">Haskell</a> or <a href="https://github.com/purescript-contrib/purescript-profunctor-lenses">PureScript.</a> Incase you didn't know, we use PureScript at Juspay and after looking at the code for one of our projects, someone came up with a suggestion to use <code>lenses.</code> I had heard of the term, however never found a reason to use it. And now seemed like a good chance to do that.</p>
+<p>So let's start with the problem we have and how we would solve it. Let's say we have a lot of records which are wrapped in a constructor. Something like the following:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">newtype</span> <span class="dt">Person</span> <span class="fu">=</span> <span class="dt">Person</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">  {<span class="ot"> id ::</span> <span class="dt">String</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">  ,<span class="ot"> name ::</span> <span class="dt">String</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">  ,<span class="ot"> location ::</span> <span class="dt">String</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">  }</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">derive <span class="kw">instance</span><span class="ot"> newtypePerson ::</span> <span class="dt">Newtype</span> <span class="dt">Person</span> _</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="kw">newtype</span> <span class="dt">Tweet</span> <span class="fu">=</span> <span class="dt">Tweet</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">  {<span class="ot"> id ::</span> <span class="dt">String</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">  ,<span class="ot"> content ::</span> <span class="dt">String</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12">  ,<span class="ot"> location ::</span> <span class="dt">String</span></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">  }</a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15">derive <span class="kw">instance</span><span class="ot"> newtypeTweet ::</span> <span class="dt">Newtype</span> <span class="dt">Tweet</span> _</a></code></pre></div>
+<p>And now to access the field <code>location</code> in a <code>Person</code> record, we might do something like this:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="ot">getLocFromPerson ::</span> <span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">String</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">getLocFromPerson (<span class="dt">Person</span> person) <span class="fu">=</span> person<span class="fu">.</span>location</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="ot">getLocFromPerson' ::</span> <span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">String</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">getLocFromPerson' (<span class="dt">Person</span> {location}) <span class="fu">=</span> location</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">personRec <span class="fu">=</span> <span class="dt">Person</span> {id<span class="fu">:</span> <span class="st">"1"</span>, name<span class="fu">:</span> <span class="st">"Luke Skywalker"</span>, location<span class="fu">:</span> <span class="st">"Ahch-To"</span>}</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">location <span class="fu">=</span> getLocFromPerson personRec</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">location' <span class="fu">=</span> getLocFromPerson' personRec</a></code></pre></div>
+<p>Or as we have a <code>newtype</code> instance for the <code>Person</code> type we could do this:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="ot">getLocFromPerson'' ::</span> <span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">String</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">getLocFromPerson'' person <span class="fu">=</span> unwrap <span class="fu">&gt;&gt;&gt;</span> _<span class="fu">.</span>location <span class="fu">$</span> person</a></code></pre></div>
+<p>What if we want to access <code>location</code> from a <code>Tweet</code> type record?</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="ot">getLocFromTweet ::</span> <span class="dt">Tweet</span> <span class="ot">-&gt;</span> <span class="dt">String</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">getLocFromTweet (<span class="dt">Tweet</span> tweet) <span class="fu">=</span> tweet<span class="fu">.</span>location</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="ot">getLocFromTweet' ::</span> <span class="dt">Tweet</span> <span class="ot">-&gt;</span> <span class="dt">String</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">getLocFromTweet' (<span class="dt">Tweet</span> {location}) <span class="fu">=</span> location</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="ot">getLocFromTweet'' ::</span> <span class="dt">Tweet</span> <span class="ot">-&gt;</span> <span class="dt">String</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">getLocFromTweet'' tweet <span class="fu">=</span> unwrap <span class="fu">&gt;&gt;&gt;</span> _<span class="fu">.</span>location <span class="fu">$</span> tweet</a></code></pre></div>
+<p>Feels a bit redundant, doesn't it? Having to type the same thing again and again? There's a solution to this.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="ot">getLocation ::</span> forall a b c<span class="fu">.</span> <span class="dt">Newtype</span> a {<span class="ot"> location ::</span> c <span class="fu">|</span> b } <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> c</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">getLocation <span class="fu">=</span> unwrap <span class="fu">&gt;&gt;&gt;</span> _<span class="fu">.</span>location <span class="co">-- A</span></a></code></pre></div>
+<p>Now this is generic enough which will work on all records which has a <code>Newtype</code> instance and has a <code>location</code> field in the record. Also, if you notice the type signature of the function, you will find that we don't specify the type of <code>location</code> which means this would work for any type of the <code>location</code> field.</p>
+<p>This is still not intuitive enough, and imagine every time having to write:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb6-1" data-line-number="1">location' <span class="fu">=</span> getLocation personRecord</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">location'' <span class="fu">=</span> getLocation tweetRecord</a></code></pre></div>
+<p>But imagine writing something along the lines of</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb7-1" data-line-number="1">location' <span class="fu">=</span> personRecord<span class="fu">.</span>location</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">location'' <span class="fu">=</span> tweetRecord<span class="fu">.</span>location</a></code></pre></div>
+<p>This is how you would do in JavaScript or Python and it feels natural, right?</p>
+<p>Here is where <code>lenses</code> come in. At this point you don't need to know how they work underneath. So we will get into how to use them right away.</p>
+<p>Basically, you create a lens for the record, the fields, with the getters and setters and then you can use the functions <code>lens</code> provides for getting a field and setting a field. So how to create a lens for the <code>Person</code> type and <code>Tweet</code> type?</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb8-1" data-line-number="1">_locationPerson <span class="fu">=</span> lens (\(<span class="dt">Person</span> person) <span class="ot">-&gt;</span> person<span class="fu">.</span>location)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">                  (\(<span class="dt">Person</span> person) newValue <span class="ot">-&gt;</span> <span class="dt">Person</span> person {location <span class="fu">=</span> newValue})</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">_locationTweet <span class="fu">=</span> lens (\(<span class="dt">Tweet</span> tweet) <span class="ot">-&gt;</span> tweet<span class="fu">.</span>location)</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">                 (\(<span class="dt">Tweet</span> tweet) newValue <span class="ot">-&gt;</span> <span class="dt">Tweet</span> tweet {location <span class="fu">=</span> newValue})</a></code></pre></div>
+<p>The first argument to the <code>lens</code> function is the getter for the <code>location</code> field and second is another function which is setter for the <code>location</code> field.</p>
+<p>There's another way to create lenses for a field rather than writing the complete getters and setters. What we do is, we create a lens for the type with the getter and setter and compose the same to get lenses for the fields.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb9-1" data-line-number="1">personLens <span class="fu">=</span> lens (\(<span class="dt">Person</span> person) <span class="ot">-&gt;</span> person) (\_ <span class="ot">-&gt;</span> <span class="dt">Person</span>)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">tweetLens <span class="fu">=</span> lens (\(<span class="dt">Tweet</span> tweet) <span class="ot">-&gt;</span> tweet) (\_ <span class="ot">-&gt;</span> <span class="dt">Tweet</span>)</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">locationProp <span class="fu">=</span> prop (<span class="dt">SProxy</span><span class="ot"> ::</span> <span class="dt">SProxy</span> <span class="st">"location"</span>)</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">locationPersonLens <span class="fu">=</span> person <span class="fu">&lt;&lt;&lt;</span> locationProp</a>
+<a class="sourceLine" id="cb9-7" data-line-number="7">locationTweetLens <span class="fu">=</span> tweetLens <span class="fu">&lt;&lt;&lt;</span> locationProp</a></code></pre></div>
+<p>And now you can use something along the lines of: <code>^.</code> which is an alias for <code>viewOn</code></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb10-1" data-line-number="1">locationPerson <span class="fu">=</span> personRecord <span class="fu">^.</span> _locationPerson</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">locationTweet <span class="fu">=</span> tweetRecord <span class="fu">^.</span> _locationTweet</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">-- or</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">locationPerson' <span class="fu">=</span> viewOn _personRecord locationPerson</a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">locationTweet' <span class="fu">=</span> viewOn _tweetRecord locationTweet</a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">-- or</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9">locationPerson'' <span class="fu">=</span> view _locationPerson personRecord</a>
+<a class="sourceLine" id="cb10-10" data-line-number="10">locationTweet'' <span class="fu">=</span> view _locationTweet tweetRecord</a></code></pre></div>
+<p>Or if we want to use the lens defined using <code>prop</code> it's the same.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb11-1" data-line-number="1">locationPerson <span class="fu">=</span> personRecord <span class="fu">^.</span> locationPersonLens</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">locationTweet <span class="fu">=</span> tweetRecord <span class="fu">^.</span> locationTweetLens</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">-- or</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">locationPerson' <span class="fu">=</span> viewOn _personRecord locationPersonLens</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6">locationTweet' <span class="fu">=</span> viewOn _tweetRecord locationTweetLens</a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">-- or</span></a>
+<a class="sourceLine" id="cb11-9" data-line-number="9">locationPerson'' <span class="fu">=</span> view locationPersonLens personRecord</a>
+<a class="sourceLine" id="cb11-10" data-line-number="10">locationTweet'' <span class="fu">=</span> view locationTweetLens tweetRecord</a></code></pre></div>
+<p>However, if you notice, you will find that we are creating a lot of lenses which are redundant. Creating a lens for the same field in different types of records is useless and goes against why we want to use lenses. So let's resuse our solution up in <code>A</code> and make this generic so we can use it in our <code>lens</code> definition.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="ot">_location ::</span> forall a b c<span class="fu">.</span> <span class="dt">Newtype</span> a {<span class="ot">location ::</span> c <span class="fu">|</span> b} <span class="ot">=&gt;</span> <span class="dt">Lens'</span> a c</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">_location <span class="fu">=</span> lens (unwrap <span class="fu">&gt;&gt;&gt;</span> _<span class="fu">.</span>location)</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">            (\record newValue <span class="ot">-&gt;</span> wrap <span class="fu">$</span> unwrap record { location <span class="fu">=</span> newValue })</a></code></pre></div>
+<p>Now, does this not look generic enough? This would work for any record which has a <code>Newtype</code> instance and also has the field <code>location</code> and as our type definition is generic enough this can be used for any type of field <code>location</code>. And our accessor functions change to:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb13-1" data-line-number="1">locationPerson <span class="fu">=</span> personRecord <span class="fu">^.</span> _location</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">locationTweet <span class="fu">=</span> tweetRecord <span class="fu">^.</span> _location</a></code></pre></div>
+<p>And to set a value in a record, we would usually do:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="ot">setLocPerson ::</span> <span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Person</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">setLocPerson (<span class="dt">Person</span> person) newLocation <span class="fu">=</span> <span class="dt">Person</span> person {location <span class="fu">=</span> newLocation}</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="ot">setLocTweet ::</span> <span class="dt">Tweet</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tweet</span></a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">setLocTweet (<span class="dt">Tweet</span> tweet) newLocation <span class="fu">=</span> <span class="dt">Tweet</span> tweet {location <span class="fu">=</span> newLocation}</a></code></pre></div>
+<p>Instead, now we can use the functionality <code>lens</code> provides and use the setter function:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb15-1" data-line-number="1">newPerson <span class="fu">=</span> set _location <span class="st">"Tatooine"</span> personRecord</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">newTweet <span class="fu">=</span> set _location <span class="st">"Dagobah"</span> tweetRecord</a>
+<a class="sourceLine" id="cb15-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="co">-- or</span></a>
+<a class="sourceLine" id="cb15-5" data-line-number="5">newPerson' <span class="fu">=</span> personRecord <span class="fu">#</span> _location <span class="fu">.~</span> <span class="st">"Tatooine"</span></a>
+<a class="sourceLine" id="cb15-6" data-line-number="6">newTweet' <span class="fu">=</span> tweetRecord <span class="fu">#</span> _location <span class="fu">.~</span> <span class="st">"Dagobah"</span></a></code></pre></div>
+<p>So, that's it for a bit of basics on how to get started with <code>lens</code> and hope you understood. And if not, let me know in the comments and I will try to clarify them out.</p>
+<h2 id="references">References:</h2>
+<ol>
+<li>Lenses by Simon Peyton Jones: <a href="https://skillsmatter.com/skillscasts/4251-lenses-compositional-data-access-and-manipulation">Skills Matter</a>
+</li>
+<li>John Weigley: Putting lenses to work: <a href="https://www.youtube.com/watch?v=QZy4Yml3LTY">YouTube</a>
+</li>
+<li>PureScript explanation of John Weigley's video by Dominick Gendill: <a href="https://www.dgendill.com/posts/programming/2017-06-21-putting-lenses-to-work-in-purescript.html">Blog</a>
+</li>
+</ol>
+</div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/haskell/" rel="tag"> haskell</a></li>
+            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/javascript/" rel="tag"> javascript</a></li>
+            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/lenses/" rel="tag"> lenses</a></li>
+            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/purescript/" rel="tag"> purescript</a></li>
+            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/tutorial/" rel="tag"> tutorial</a></li>
+        </ul>
+<div class="pager hidden-print">
+            <p class="previous">
+                <a href="../moving-from-markdown-to-pandoc-in-nikola/" rel="prev" title="Moving from Markdown to Pandoc in Nikola"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Previous</a>
+            </p>
+        </div>
+
+    </nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+        
+        
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="iammrinal0",
+            disqus_url="https://mrinalpurohit.in/blog/using-lenses-in-purescript/",
+        disqus_title="Using Lenses in PureScript",
+        disqus_identifier="cache/posts/using-lenses-in-purescript.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        </section></article><script>var disqus_shortname="iammrinal0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p></p>
+<hr>
+<a class="fa fa-github" href="https://github.com/iammrinal0" title="GitHub" target="_blank"></a><a class="fa fa-key" href="https://keybase.io/iammrinal0" title="Keybase" target="_blank"></a><a class="fa fa-linkedin" href="https://linkedin.com/in/iammrinal0" title="LinkedIn" target="_blank"></a><a class="fa" href="https://goodreads.com/iammrinal0" title="Goodreads" target="_blank">g</a><a class="fa fa-facebook-f" href="https://facebook.com/iammrinal0" title="Facebook" target="_blank"></a><a class="fa fa-twitter" href="https://twitter.com/iammrinal0" title="Twitter" target="_blank"></a><a class="fa fa-instagram" href="https://instagram.com/iammrinal0" title="Instagram" target="_blank"></a><br>© 2018         <a href="mailto:contact@mrinalpurohit.in">Mrinal Purohit</a> - Powered by        <a href="https://getnikola.com" rel="nofollow" target="_blank">Nikola</a> with <a href="https://github.com/iammrinal0/lanyon" target="_blank">Lanyon</a> theme
+            
+        </footer>
+</div>
+    </div>
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+    <script>
+      (function(document) {
+        var toggle = document.querySelector('.sidebar-toggle');
+        var sidebar = document.querySelector('#sidebar');
+        var checkbox = document.querySelector('#sidebar-checkbox');
+        document.addEventListener('click', function(e) {
+          var target = e.target;
+          if(!checkbox.checked ||
+             sidebar.contains(target) ||
+             (target === checkbox || target === toggle)) return;
+          checkbox.checked = false;
+        }, false);
+      })(document);
+    </script><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script><script src="../../assets/js/all.js"></script><script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-576133a19bcabb3e"></script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(2, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>
