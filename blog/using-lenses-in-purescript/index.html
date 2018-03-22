@@ -156,7 +156,7 @@
 <a class="sourceLine" id="cb9-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb9-4" data-line-number="4">locationProp <span class="fu">=</span> prop (<span class="dt">SProxy</span><span class="ot"> ::</span> <span class="dt">SProxy</span> <span class="st">"location"</span>)</a>
 <a class="sourceLine" id="cb9-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6">locationPersonLens <span class="fu">=</span> person <span class="fu">&lt;&lt;&lt;</span> locationProp</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">locationPersonLens <span class="fu">=</span> personLens <span class="fu">&lt;&lt;&lt;</span> locationProp</a>
 <a class="sourceLine" id="cb9-7" data-line-number="7">locationTweetLens <span class="fu">=</span> tweetLens <span class="fu">&lt;&lt;&lt;</span> locationProp</a></code></pre></div>
 <p>And now you can use something along the lines of: <code>^.</code> which is an alias for <code>viewOn</code></p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb10-1" data-line-number="1">locationPerson <span class="fu">=</span> personRecord <span class="fu">^.</span> _locationPerson</a>
