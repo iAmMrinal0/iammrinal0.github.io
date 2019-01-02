@@ -94,6 +94,7 @@
 -->
 
 <p>I believe we all have come across interesting problems while programming and once we found the solution or an easier way to do it, we had our minds blown away. I had a similar feeling when I discovered <code>lenses</code> and started using them. No, I am not talking about <!-- TEASER_END --> my glasses or eye lenses. I am talking about <code>lenses</code> in <a href="https://github.com/ekmett/lens">Haskell</a> or <a href="https://github.com/purescript-contrib/purescript-profunctor-lenses">PureScript.</a> Incase you didn't know, we use PureScript at Juspay and after looking at the code for one of our projects, someone came up with a suggestion to use <code>lenses.</code> I had heard of the term, however never found a reason to use it. And now seemed like a good chance to do that.</p>
+<p><b>Update:</b> If you've read this post already then you should check out the end as I've updated the post to describe a shorter way to define lenses.</p>
 <p>So let's start with the problem we have and how we would solve it. Let's say we have a lot of records which are wrapped in a constructor. Something like the following:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">newtype</span> <span class="dt">Person</span> <span class="fu">=</span> <span class="dt">Person</span></a>
 <a class="sourceLine" id="cb1-2" title="2">  {<span class="ot"> id ::</span> <span class="dt">String</span></a>
@@ -202,6 +203,11 @@
 <a class="sourceLine" id="cb15-5" title="5">newPerson' <span class="fu">=</span> personRecord <span class="fu">#</span> _location <span class="fu">.~</span> <span class="st">"Tatooine"</span></a>
 <a class="sourceLine" id="cb15-6" title="6">newTweet' <span class="fu">=</span> tweetRecord <span class="fu">#</span> _location <span class="fu">.~</span> <span class="st">"Dagobah"</span></a></code></pre></div>
 <p>So, that's it for a bit of basics on how to get started with <code>lens</code> and hope you understood. And if not, let me know in the comments and I will try to clarify them out.</p>
+<h3 id="update">Update</h3>
+<p>Thanks to the functionalprogramming Slack group I came across an interesting and shorter way to define our lenses and what we did is basically the more verbose way. The shorter solution is just using helper functions which do the work of what we are doing above.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb16-1" title="1"><span class="ot">_location ::</span> <span class="kw">forall</span> a b c<span class="fu">.</span> <span class="dt">Newtype</span> a {<span class="ot">location ::</span> c <span class="fu">|</span> b} <span class="ot">=&gt;</span> <span class="dt">Lens'</span> a c</a>
+<a class="sourceLine" id="cb16-2" title="2">_location <span class="fu">=</span> _Newtype <span class="fu">&lt;&lt;&lt;</span> prop (<span class="dt">SProxy</span><span class="ot"> ::</span> <span class="dt">SProxy</span> <span class="st">"location"</span>)</a></code></pre></div>
+<p>And that's it. The <code>prop</code> function gives us a getter and setter for the field <code>location</code> and the <code>_Newtype</code> function gives us an <code>iso</code> which does <code>unwrap</code> and <code>wrap</code> for us which we were performing in our older solution.</p>
 <h2 id="references">References:</h2>
 <ol>
 <li>Lenses by Simon Peyton Jones: <a href="https://skillsmatter.com/skillscasts/4251-lenses-compositional-data-access-and-manipulation">Skills Matter</a>
@@ -209,6 +215,8 @@
 <li>John Weigley: Putting lenses to work: <a href="https://www.youtube.com/watch?v=QZy4Yml3LTY">YouTube</a>
 </li>
 <li>PureScript explanation of John Weigley's video by Dominick Gendill: <a href="https://www.dgendill.com/posts/programming/2017-06-21-putting-lenses-to-work-in-purescript.html">Blog</a>
+</li>
+<li>Functional Programming Slack: <a href="https://fpchat-invite.herokuapp.com/">Invite link</a> and <a href="https://functionalprogramming.slack.com/">Team</a>
 </li>
 </ol>
 </div>
