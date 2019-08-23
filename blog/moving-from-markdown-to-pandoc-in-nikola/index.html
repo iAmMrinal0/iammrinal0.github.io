@@ -113,10 +113,10 @@
 <li>Whereas, Pandoc generates a complete HTML file with <code>head</code> and <code>style</code> information which Nikola unfortunately ignores and takes only whatever is inside the <code>body</code> tag and generates the final HTML with the templated content.</li>
 </ul>
 <p>What we want is to preserve the style information so that code highlighting remains as how we want it. And so, started perusing the pandoc docs to be kind of disappointed that style information could not be generated as a standalone file as an input to Nikola. So, what I ended up doing is generate a dummy output file with some code as input to pandoc. Copy the following code snippet(or write some code of your choice) and paste it in a new file as <code>input.md</code>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">def</span> func():</a>
-<a class="sourceLine" id="cb1-2" title="2">    a <span class="op">=</span> <span class="dv">100</span></a>
-<a class="sourceLine" id="cb1-3" title="3">    b <span class="op">=</span> <span class="st">"hello"</span>.split()</a>
-<a class="sourceLine" id="cb1-4" title="4">    c <span class="op">=</span> [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>].join(<span class="st">''</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">def</span> func():</span>
+<span id="cb1-2"><a href="#cb1-2"></a>    a <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a>    b <span class="op">=</span> <span class="st">"hello"</span>.split()</span>
+<span id="cb1-4"><a href="#cb1-4"></a>    c <span class="op">=</span> [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>].join(<span class="st">''</span>)</span></code></pre></div>
 <p>And run the following command:</p>
 <p><code>$ pandoc -f gfm -o output.html input.md --highlight-style=kate -s</code></p>
 <p>I personally like the <code>kate</code> theme and for a list of supported themes check out the <code>--highlight-style</code> flag in the <a href="https://pandoc.org/MANUAL.html#general-writer-options">Pandoc docs.</a></p>
@@ -130,22 +130,22 @@
 </ul>
 </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
-<li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/hacks/" rel="tag"> hacks</a></li>
-            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/haskell/" rel="tag"> haskell</a></li>
-            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/kate/" rel="tag"> kate</a></li>
-            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/markdown/" rel="tag"> markdown</a></li>
-            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/nikola/" rel="tag"> nikola</a></li>
-            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/pandoc/" rel="tag"> pandoc</a></li>
-            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/pygments/" rel="tag"> pygments</a></li>
-            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/python/" rel="tag"> python</a></li>
-            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/tutorial/" rel="tag"> tutorial</a></li>
+<li><a class="tag p-category" aria-hidden="true" id="unq" href="../../categories/hacks/" rel="tag"><i class="fas fa-tag"></i> hacks</a></li>
+            <li><a class="tag p-category" aria-hidden="true" id="unq" href="../../categories/haskell/" rel="tag"><i class="fas fa-tag"></i> haskell</a></li>
+            <li><a class="tag p-category" aria-hidden="true" id="unq" href="../../categories/kate/" rel="tag"><i class="fas fa-tag"></i> kate</a></li>
+            <li><a class="tag p-category" aria-hidden="true" id="unq" href="../../categories/markdown/" rel="tag"><i class="fas fa-tag"></i> markdown</a></li>
+            <li><a class="tag p-category" aria-hidden="true" id="unq" href="../../categories/nikola/" rel="tag"><i class="fas fa-tag"></i> nikola</a></li>
+            <li><a class="tag p-category" aria-hidden="true" id="unq" href="../../categories/pandoc/" rel="tag"><i class="fas fa-tag"></i> pandoc</a></li>
+            <li><a class="tag p-category" aria-hidden="true" id="unq" href="../../categories/pygments/" rel="tag"><i class="fas fa-tag"></i> pygments</a></li>
+            <li><a class="tag p-category" aria-hidden="true" id="unq" href="../../categories/python/" rel="tag"><i class="fas fa-tag"></i> python</a></li>
+            <li><a class="tag p-category" aria-hidden="true" id="unq" href="../../categories/tutorial/" rel="tag"><i class="fas fa-tag"></i> tutorial</a></li>
         </ul>
 <div class="pager hidden-print">
             <p class="previous">
-                <a href="../the-curious-case-of-matching-memory-locations-in-python/" rel="prev" title="The Curious Case of Matching Memory Locations in Python"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Previous</a>
+                <a href="../the-curious-case-of-matching-memory-locations-in-python/" rel="prev" title="The Curious Case of Matching Memory Locations in Python"><i class="fas fa-arrow-circle-left" aria-hidden="true"></i> Previous</a>
             </p>
             <p class="next">
-                <a href="../using-lenses-in-purescript/" rel="next" title="Using Lenses in PureScript">Next <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+                <a href="../using-lenses-in-purescript/" rel="next" title="Using Lenses in PureScript">Next <i class="fas fa-arrow-circle-right" aria-hidden="true"></i></a>
             </p>
         </div>
 

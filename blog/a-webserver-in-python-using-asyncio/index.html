@@ -98,17 +98,17 @@
 <p>I had a rudimentary implementation using threads based on previous work by ex-Geekskool students and had to port it to Python 3 and add more features. Most of the time was spent in reading the <a href="https://www.ietf.org/rfc/rfc2616.txt">HTTP RFC spec</a> which even though time consuming, gave a glimpse about what all goes in the HTTP/1.1 protocol, the syntax, the required request and response headers.</p>
 <p>I commenced with moving the server from a threads based approach to the new and shiny asyncio based approach. I had to read up on why the async approach was brought in the first place, the pros and cons of threads and when to use threads and when to use async.</p>
 <p>In the older code base, the threads version, <code>2048</code> bytes were read from a socket every time, till there was no data to read, which looked inefficient. In the async based approach, I started with the same methodology till I found a method, in the async <code>reader</code> object called <code>readuntil</code> which I used to read till the delimiter <code>\r\n\r\n</code> which gives the complete header and for the body I took the <code>Content-Length</code> field from the header and used a method <code>readexactly</code> to read the exact bytes of the body.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">def</span> check_content(headers):</a>
-<a class="sourceLine" id="cb1-2" title="2">    <span class="cf">if</span> b<span class="st">"Content-Length"</span> <span class="kw">in</span> headers:</a>
-<a class="sourceLine" id="cb1-3" title="3">        con_pos <span class="op">=</span> headers.find(b<span class="st">"Content-Length"</span>)</a>
-<a class="sourceLine" id="cb1-4" title="4">        col_pos <span class="op">=</span> headers.find(b<span class="st">":"</span>, con_pos)</a>
-<a class="sourceLine" id="cb1-5" title="5">        srsn <span class="op">=</span> headers.find(b<span class="st">"</span><span class="ch">\r\n</span><span class="st">"</span>, col_pos)</a>
-<a class="sourceLine" id="cb1-6" title="6">        con_len <span class="op">=</span> <span class="bu">int</span>(headers[col_pos <span class="op">+</span> <span class="dv">2</span>:srsn])</a>
-<a class="sourceLine" id="cb1-7" title="7">        <span class="cf">return</span> con_len</a></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb2-1" title="1">header <span class="op">=</span> <span class="cf">await</span> reader.readuntil(b<span class="st">"</span><span class="ch">\r\n\r\n</span><span class="st">"</span>)</a>
-<a class="sourceLine" id="cb2-2" title="2">content_length <span class="op">=</span> check_content(header)</a>
-<a class="sourceLine" id="cb2-3" title="3"><span class="cf">if</span> content_length:</a>
-<a class="sourceLine" id="cb2-4" title="4">    content <span class="op">=</span> <span class="cf">await</span> reader.readexactly(content_length)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">def</span> check_content(headers):</span>
+<span id="cb1-2"><a href="#cb1-2"></a>    <span class="cf">if</span> b<span class="st">"Content-Length"</span> <span class="kw">in</span> headers:</span>
+<span id="cb1-3"><a href="#cb1-3"></a>        con_pos <span class="op">=</span> headers.find(b<span class="st">"Content-Length"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4"></a>        col_pos <span class="op">=</span> headers.find(b<span class="st">":"</span>, con_pos)</span>
+<span id="cb1-5"><a href="#cb1-5"></a>        srsn <span class="op">=</span> headers.find(b<span class="st">"</span><span class="ch">\r\n</span><span class="st">"</span>, col_pos)</span>
+<span id="cb1-6"><a href="#cb1-6"></a>        con_len <span class="op">=</span> <span class="bu">int</span>(headers[col_pos <span class="op">+</span> <span class="dv">2</span>:srsn])</span>
+<span id="cb1-7"><a href="#cb1-7"></a>        <span class="cf">return</span> con_len</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>header <span class="op">=</span> <span class="cf">await</span> reader.readuntil(b<span class="st">"</span><span class="ch">\r\n\r\n</span><span class="st">"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2"></a>content_length <span class="op">=</span> check_content(header)</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="cf">if</span> content_length:</span>
+<span id="cb2-4"><a href="#cb2-4"></a>    content <span class="op">=</span> <span class="cf">await</span> reader.readexactly(content_length)</span></code></pre></div>
 <p>The method <code>check_content</code> checks for <code>Content-Length</code> in the header byte string and returns the value and the following snippet reads exactly the amount of bytes as specified in the <code>Content-Length</code> header field.</p>
 <p>File uploads, handling query parameters in a GET request were the features added next. It involved a lot of refactoring, as I was realizing the pains of strings and byte strings which Python 2 did not differentiate, and was also slowly getting the hang of how asyncio works.</p>
 <p>Features to be added:</p>
@@ -121,19 +121,19 @@
 <p>So, currently the server can serve dynamic content, static files, handle GET and POST requests, handle sessions using cookies, and file uploads. The complete code is in a single file at <a href="https://github.com/geekskool/magicserver-python3/blob/master/server.py">server.py</a> and the repo is at <a href="https://github.com/geekskool/magicserver-python3/">magicserver-python3</a></p>
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
-<li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/asyncio/" rel="tag"> asyncio</a></li>
-            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/geekskool/" rel="tag"> geekskool</a></li>
-            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/http/" rel="tag"> http</a></li>
-            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/python/" rel="tag"> python</a></li>
-            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/server/" rel="tag"> server</a></li>
-            <li><a class="fa fa-tag tag p-category" aria-hidden="true" id="unq" href="../../categories/threads/" rel="tag"> threads</a></li>
+<li><a class="tag p-category" aria-hidden="true" id="unq" href="../../categories/asyncio/" rel="tag"><i class="fas fa-tag"></i> asyncio</a></li>
+            <li><a class="tag p-category" aria-hidden="true" id="unq" href="../../categories/geekskool/" rel="tag"><i class="fas fa-tag"></i> geekskool</a></li>
+            <li><a class="tag p-category" aria-hidden="true" id="unq" href="../../categories/http/" rel="tag"><i class="fas fa-tag"></i> http</a></li>
+            <li><a class="tag p-category" aria-hidden="true" id="unq" href="../../categories/python/" rel="tag"><i class="fas fa-tag"></i> python</a></li>
+            <li><a class="tag p-category" aria-hidden="true" id="unq" href="../../categories/server/" rel="tag"><i class="fas fa-tag"></i> server</a></li>
+            <li><a class="tag p-category" aria-hidden="true" id="unq" href="../../categories/threads/" rel="tag"><i class="fas fa-tag"></i> threads</a></li>
         </ul>
 <div class="pager hidden-print">
             <p class="previous">
-                <a href="../the-month-that-was-september/" rel="prev" title="The month that was September"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Previous</a>
+                <a href="../the-month-that-was-september/" rel="prev" title="The month that was September"><i class="fas fa-arrow-circle-left" aria-hidden="true"></i> Previous</a>
             </p>
             <p class="next">
-                <a href="../a-short-stint-with-haskell/" rel="next" title="A short stint with Haskell">Next <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+                <a href="../a-short-stint-with-haskell/" rel="next" title="A short stint with Haskell">Next <i class="fas fa-arrow-circle-right" aria-hidden="true"></i></a>
             </p>
         </div>
 
