@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Through My Eyes (Posts about nix)</title><link>https://mrinalpurohit.in/</link><description></description><atom:link href="https://mrinalpurohit.in/categories/nix.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 02 Sep 2019 18:21:24 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Was trying out Nix all for nix?</title><link>https://mrinalpurohit.in/blog/was-trying-out-nix-all-for-nix/</link><dc:creator>Mrinal Purohit</dc:creator><description>&lt;div&gt;&lt;!--
+.. title: Was trying out Nix all for nix?
+.. slug: was-trying-out-nix-all-for-nix
+.. date: 2019-08-23 23:57:45 UTC+05:30
+.. tags: nix, nixos, haskell, programming, development, arch, linux
+.. category: technical
+.. link:
+.. description: My experience using Nix and NixOS
+.. type: text
+--&gt;
+
+&lt;p&gt;Yes, I searched for what "nix" means just to see if I could make a funny title out of it. For the lazy, "nix" means "nothing." It's been a long time since I wrote a post and I thought I'd write on my recent learning and experiences using NixOS and Nix (the package manager). You know how when you have your machine stable and working without issues for a while and you have this itch to try something shiny? No? Yes? Only me? Okay. So that's exactly what happened after I'd been using Arch Linux for 4 years. Long story short, I like NixOS so far after my usage of 4 months. &lt;/p&gt;&lt;p&gt;&lt;a href="https://mrinalpurohit.in/blog/was-trying-out-nix-all-for-nix/"&gt;Read more…&lt;/a&gt; (3 min remaining to read)&lt;/p&gt;&lt;/div&gt;</description><category>arch</category><category>development</category><category>haskell</category><category>linux</category><category>nix</category><category>nixos</category><category>programming</category><guid>https://mrinalpurohit.in/blog/was-trying-out-nix-all-for-nix/</guid><pubDate>Fri, 23 Aug 2019 18:27:45 GMT</pubDate></item></channel></rss>

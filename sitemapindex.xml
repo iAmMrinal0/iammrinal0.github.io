@@ -10,6 +10,10 @@
   <lastmod>2019-08-24T19:18:00Z</lastmod>
  </sitemap>
  <sitemap>
+  <loc>https://mrinalpurohit.in/categories/arch.xml</loc>
+  <lastmod>2019-09-02T18:21:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>https://mrinalpurohit.in/categories/asyncio.xml</loc>
   <lastmod>2019-08-24T19:18:00Z</lastmod>
  </sitemap>
@@ -39,7 +43,7 @@
  </sitemap>
  <sitemap>
   <loc>https://mrinalpurohit.in/categories/cat_technical.xml</loc>
-  <lastmod>2019-08-24T19:19:00Z</lastmod>
+  <lastmod>2019-09-02T18:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://mrinalpurohit.in/categories/clean.xml</loc>
@@ -56,6 +60,10 @@
  <sitemap>
   <loc>https://mrinalpurohit.in/categories/cycle.xml</loc>
   <lastmod>2019-08-24T19:18:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://mrinalpurohit.in/categories/development.xml</loc>
+  <lastmod>2019-09-02T18:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://mrinalpurohit.in/categories/farewell.xml</loc>
@@ -91,7 +99,7 @@
  </sitemap>
  <sitemap>
   <loc>https://mrinalpurohit.in/categories/haskell.xml</loc>
-  <lastmod>2019-08-24T19:19:00Z</lastmod>
+  <lastmod>2019-09-02T18:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://mrinalpurohit.in/categories/http.xml</loc>
@@ -126,6 +134,10 @@
   <lastmod>2019-08-24T19:18:00Z</lastmod>
  </sitemap>
  <sitemap>
+  <loc>https://mrinalpurohit.in/categories/linux.xml</loc>
+  <lastmod>2019-09-02T18:21:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>https://mrinalpurohit.in/categories/lumia-920.xml</loc>
   <lastmod>2019-08-24T19:18:00Z</lastmod>
  </sitemap>
@@ -154,6 +166,14 @@
   <lastmod>2019-08-24T19:18:00Z</lastmod>
  </sitemap>
  <sitemap>
+  <loc>https://mrinalpurohit.in/categories/nix.xml</loc>
+  <lastmod>2019-09-02T18:21:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://mrinalpurohit.in/categories/nixos.xml</loc>
+  <lastmod>2019-09-02T18:21:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>https://mrinalpurohit.in/categories/nokia.xml</loc>
   <lastmod>2019-08-24T19:18:00Z</lastmod>
  </sitemap>
@@ -176,6 +196,10 @@
  <sitemap>
   <loc>https://mrinalpurohit.in/categories/phones.xml</loc>
   <lastmod>2019-08-24T19:18:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://mrinalpurohit.in/categories/programming.xml</loc>
+  <lastmod>2019-09-02T18:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://mrinalpurohit.in/categories/purescript.xml</loc>
@@ -239,10 +263,10 @@
  </sitemap>
  <sitemap>
   <loc>https://mrinalpurohit.in/rss.xml</loc>
-  <lastmod>2019-08-24T19:19:00Z</lastmod>
+  <lastmod>2019-09-02T18:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://mrinalpurohit.in/sitemap.xml</loc>
-  <lastmod>2019-08-25T06:56:00Z</lastmod>
+  <lastmod>2019-09-02T18:21:00Z</lastmod>
  </sitemap>
 </sitemapindex>

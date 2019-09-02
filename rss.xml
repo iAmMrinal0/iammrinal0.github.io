@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Through My Eyes</title><link>https://mrinalpurohit.in/</link><description>Personal site and blog of Mrinal Purohit aka iammrinal0</description><atom:link href="https://mrinalpurohit.in/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 24 Aug 2019 19:19:09 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>A long day on the saddle</title><link>https://mrinalpurohit.in/blog/a-long-day-on-the-saddle/</link><dc:creator>Mrinal Purohit</dc:creator><description>&lt;div&gt;&lt;!--
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Through My Eyes</title><link>https://mrinalpurohit.in/</link><description>Personal site and blog of Mrinal Purohit aka iammrinal0</description><atom:link href="https://mrinalpurohit.in/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 02 Sep 2019 18:21:24 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Was trying out Nix all for nix?</title><link>https://mrinalpurohit.in/blog/was-trying-out-nix-all-for-nix/</link><dc:creator>Mrinal Purohit</dc:creator><description>&lt;div&gt;&lt;!--
+.. title: Was trying out Nix all for nix?
+.. slug: was-trying-out-nix-all-for-nix
+.. date: 2019-08-23 23:57:45 UTC+05:30
+.. tags: nix, nixos, haskell, programming, development, arch, linux
+.. category: technical
+.. link:
+.. description: My experience using Nix and NixOS
+.. type: text
+--&gt;
+
+&lt;p&gt;Yes, I searched for what "nix" means just to see if I could make a funny title out of it. For the lazy, "nix" means "nothing." It's been a long time since I wrote a post and I thought I'd write on my recent learning and experiences using NixOS and Nix (the package manager). You know how when you have your machine stable and working without issues for a while and you have this itch to try something shiny? No? Yes? Only me? Okay. So that's exactly what happened after I'd been using Arch Linux for 4 years. Long story short, I like NixOS so far after my usage of 4 months. &lt;/p&gt;&lt;p&gt;&lt;a href="https://mrinalpurohit.in/blog/was-trying-out-nix-all-for-nix/"&gt;Read more…&lt;/a&gt; (3 min remaining to read)&lt;/p&gt;&lt;/div&gt;</description><category>arch</category><category>development</category><category>haskell</category><category>linux</category><category>nix</category><category>nixos</category><category>programming</category><guid>https://mrinalpurohit.in/blog/was-trying-out-nix-all-for-nix/</guid><pubDate>Fri, 23 Aug 2019 18:27:45 GMT</pubDate></item><item><title>A long day on the saddle</title><link>https://mrinalpurohit.in/blog/a-long-day-on-the-saddle/</link><dc:creator>Mrinal Purohit</dc:creator><description>&lt;div&gt;&lt;!--
 .. title: A long day on the saddle
 .. slug: a-long-day-on-the-saddle
 .. date: 2018-07-05 17:07:27 UTC+05:30
@@ -99,16 +110,4 @@
 .. type: text
 --&gt;
 
-&lt;p&gt;For the past year or so, I have been using Jekyll to maintain my site on GitHub which was just a simple single page with details about me, my projects, and skills (which I never updated.) So as someone using Python for every menial task, I set out to check some static site generators in Python. And so, I stumbled upon &lt;/p&gt;&lt;p&gt;&lt;a href="https://mrinalpurohit.in/blog/nikola-a-new-learning-experience/"&gt;Read more…&lt;/a&gt; (1 min remaining to read)&lt;/p&gt;&lt;/div&gt;</description><category>jekyll</category><category>learn</category><category>nikola</category><category>pelican</category><category>python</category><category>static</category><guid>https://mrinalpurohit.in/blog/nikola-a-new-learning-experience/</guid><pubDate>Tue, 17 May 2016 20:55:39 GMT</pubDate></item><item><title>init</title><link>https://mrinalpurohit.in/blog/init/</link><dc:creator>Mrinal Purohit</dc:creator><description>&lt;div&gt;&lt;!-- 
-.. title: init
-.. slug: init
-.. date: 2016-05-15 18:33:36 UTC+05:30
-.. tags: first, init, start, beginning
-.. category: personal
-.. link: 
-.. description: Welcome y'all to my humble abode on the interwebz.
-.. type: text
---&gt;
-
-&lt;p&gt;Welcome to my blog.&lt;/p&gt;
-&lt;p&gt;After writing for quite some time in WordPress, I thought why not setup a simple static site with markdown and GitHub for hosting. It took some time to setup but &lt;/p&gt;&lt;p&gt;&lt;a href="https://mrinalpurohit.in/blog/init/"&gt;Read more…&lt;/a&gt; (1 min remaining to read)&lt;/p&gt;&lt;/div&gt;</description><category>beginning</category><category>first</category><category>init</category><category>start</category><guid>https://mrinalpurohit.in/blog/init/</guid><pubDate>Sun, 15 May 2016 13:03:36 GMT</pubDate></item></channel></rss>
+&lt;p&gt;For the past year or so, I have been using Jekyll to maintain my site on GitHub which was just a simple single page with details about me, my projects, and skills (which I never updated.) So as someone using Python for every menial task, I set out to check some static site generators in Python. And so, I stumbled upon &lt;/p&gt;&lt;p&gt;&lt;a href="https://mrinalpurohit.in/blog/nikola-a-new-learning-experience/"&gt;Read more…&lt;/a&gt; (1 min remaining to read)&lt;/p&gt;&lt;/div&gt;</description><category>jekyll</category><category>learn</category><category>nikola</category><category>pelican</category><category>python</category><category>static</category><guid>https://mrinalpurohit.in/blog/nikola-a-new-learning-experience/</guid><pubDate>Tue, 17 May 2016 20:55:39 GMT</pubDate></item></channel></rss>

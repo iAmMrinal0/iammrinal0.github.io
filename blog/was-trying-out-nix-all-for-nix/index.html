@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html prefix="" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="My experience using Nix and NixOS">
+<meta name="viewport" content="width=device-width">
+<title>Was trying out Nix all for nix? • Mrinal Purohit</title>
+<link href="../../assets/css/all.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://mrinalpurohit.in/blog/was-trying-out-nix-all-for-nix/">
+<link rel="icon" href="../../assets/images/favicon.ico" sizes="50x50">
+<!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script><![endif]--><script src="https://kit.fontawesome.com/e00ed704cf.js"></script><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-64263019-1', 'auto');
+  ga('send', 'pageview');
+
+</script><meta name="author" content="Mrinal Purohit">
+<link rel="prev" href="../a-long-day-on-the-saddle/" title="A long day on the saddle" type="text/html">
+</head>
+<body class="theme-base-22">
+    <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+            styles, `#sidebar-checkbox` for behavior. -->
+    <input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox"><!-- Toggleable sidebar --><div class="sidebar" id="sidebar">
+        <div class="sidebar-item">
+            <img src="../../assets/images/face.jpg">
+</div>
+        
+    <nav id="menu" role="navigation" class="sidebar-nav"><a class="sidebar-nav-item" href="../../blog">Blog</a>
+            <a class="sidebar-nav-item" href="../../about">About</a>
+            <a class="sidebar-nav-item" href="../../archive.html">Archive</a>
+            <a class="sidebar-nav-item" href="../../categories/">Tags</a>
+            <a class="sidebar-nav-item" href="../../rss.xml">RSS feed</a>
+    
+    
+    </nav>
+</div>
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          
+    <h3 id="brand" class="masthead-title">
+      <a href="https://mrinalpurohit.in/" title="Through My Eyes" rel="home">Through My Eyes</a>
+    </h3>
+
+        </div>
+      </div>
+
+      <div class="container content" id="content">
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="post-title p-name entry-title" itemprop="headline name"><a href="." class="u-url">Was trying out Nix all for nix?</a></h1>
+
+        <div class="metadata">
+            <p class="dateline"><time class="post-date published dt-published" datetime="2019-08-23T23:57:45+05:30" itemprop="datePublished" title="23-Aug-2019 23:08">23-Aug-2019 23:08</time></p>
+                 <p class="commentline">
+        
+    <a href="#disqus_thread" data-disqus-identifier="cache/posts/was-trying-out-nix-all-for-nix.html">Comments</a>
+
+
+                <meta name="description" itemprop="description" content="My experience using Nix and NixOS"></p>
+</div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <!--
+.. title: Was trying out Nix all for nix?
+.. slug: was-trying-out-nix-all-for-nix
+.. date: 2019-08-23 23:57:45 UTC+05:30
+.. tags: nix, nixos, haskell, programming, development, arch, linux
+.. category: technical
+.. link:
+.. description: My experience using Nix and NixOS
+.. type: text
+-->
+
+<p>Yes, I searched for what "nix" means just to see if I could make a funny title out of it. For the lazy, "nix" means "nothing." It's been a long time since I wrote a post and I thought I'd write on my recent learning and experiences using NixOS and Nix (the package manager). You know how when you have your machine stable and working without issues for a while and you have this itch to try something shiny? No? Yes? Only me? Okay. So that's exactly what happened after I'd been using Arch Linux for 4 years. Long story short, I like NixOS so far after my usage of 4 months. <!-- TEASER_END --></p>
+<p>I still remember the day when Paul, who is a mentor at work, with all excitement said, "I've been using NixOS and it is awesome!" And while still being excited he was explaining to me how it works, how the setup is deterministic and how it takes the simple concept of symbolic links to manage your complete system. This pushed me to start trying it out and see for myself if it really is as he claims, "awesome".</p>
+<h3 id="the-good-the-bad-and-the-ugly">The Good, the Bad, and the Ugly</h3>
+<h4 id="the-good">The Good</h4>
+<p>I've been able to manage a couple of my systems using configuration files and replicate the exact NixOS setup. I've messed with a lot of fonts, wireless tools while I was on Arch that I had no documentation to replicate the setup whenever I moved to a new machine. NixOS with its <code>configuration.nix</code> has been a breeze to setup and the configuration file is self documented and I have it version controlled too!</p>
+<p>Every configuration change is a new "generation". These generations allow you to rollback to any of the config change, whenever you want to. You are provided generation selection as an option while the system boots.</p>
+<p>Installed something and it screwed the system? (yeah, looking at you display drivers) Easy to rollback when you get a blank screen, rather than tinkering and removing the package or downgrading the package through esoteric means. Once I ruined my config trying out wireless vs Network Manager and I couldn't get it working, and all I had to do now was select a different generation to boot into.</p>
+<p>I've been using <code>nix-shell</code> for development for my Haskell and Python projects. And I've had to deal with system level packages and on Arch I'd just blindly install that and get away with it, forgetting altogether. Meanwhile, on NixOS, unless I really need the package system-wide I don't install it and just provide it in my <code>shell.nix</code> as a build dependent. <code>nix-shell</code> gives you a shell with the dependencies you specify, like a virtual environment, if you will.</p>
+<h4 id="the-bad">The Bad</h4>
+<p>I've had to use a few packages not available in <code>nixpkgs</code> and had to write derivations for those. The Nix community is not as big as the Arch community hence it is possible that the new, shiny, package that a user released on AUR may not be available.</p>
+<p>Getting used to <code>nix-shell</code> way of development takes a bit of time to setup. For Python, where <code>pypi2nix</code> is under development, it's possible that it might not work for everyone.</p>
+<h4 id="the-ugly">The Ugly</h4>
+<p>The learning curve, different file system, documentation, error messages. It was pretty difficult in the initial days to get something done with Nix, because it was new and also that I had to read the actual source code to understand how things were working. NixOS does not follow the Filesystem Hierarchy Standard and thus it could be difficult for people who expect the file structure in a particular way when they come from a different operating system.</p>
+<p>The error messages are not as descriptive and understandable even with <code>--show-trace</code> and unless you know where you went wrong or know how it all works, best of luck, you are looking at debugging it blindly for a while.</p>
+<h2 id="should-you-or-should-you-not">Should you or should you not?</h2>
+<p>You might want to try Nix, if you are someone who:</p>
+<ul>
+<li>wants to maintain your system using a configuration file which you could version control.</li>
+<li>wants the exact same setup on two different machines.</li>
+<li>tinkers a lot with their system and wants to have a rollback mechanism when you mess something up.</li>
+<li>prefers to <em>not</em> install system dependencies for a project globally.</li>
+<li>prefers separation between system and user packages.</li>
+</ul>
+<p>Similarly, you might not want to try Nix, if you are someone who:</p>
+<ul>
+<li>doesn't like to modify configuration frequently.</li>
+<li>likes an out of the box experience.</li>
+<li>use a few unconventional packages, like from the AUR frequently.</li>
+<li>prefers to stay on the latest and greatest of the packages.</li>
+</ul>
+<p>Few terminologies:</p>
+<ul>
+<li>
+<code>configuration.nix</code>: System config used by NixOS</li>
+<li>
+<code>nix-shell</code>: Command used to start a new development shell using a <code>shell.nix</code> or <code>default.nix</code> file</li>
+<li>
+<code>pypi2nix</code>: Tool used to convert Python packages to Nix derivations</li>
+<li>
+<code>AUR</code>: Arch User Repository</li>
+</ul>
+<p>Overall, the functional programming Slack group has been helpful. However, it was more of personal exploration, digging deep whenever I hit a roadblock. Now that I've seen and experienced the issues, I plan to work on the documentation and if possible contribute on the packages side.</p>
+<h2 id="links">Links</h2>
+<p>My Nix configuration: <a href="https://github.com/iammrinal0/nix-config">nix-config</a></p>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" aria-hidden="true" id="unq" href="../../categories/arch/" rel="tag"><i class="fas fa-tag"></i> arch</a></li>
+            <li><a class="tag p-category" aria-hidden="true" id="unq" href="../../categories/development/" rel="tag"><i class="fas fa-tag"></i> development</a></li>
+            <li><a class="tag p-category" aria-hidden="true" id="unq" href="../../categories/haskell/" rel="tag"><i class="fas fa-tag"></i> haskell</a></li>
+            <li><a class="tag p-category" aria-hidden="true" id="unq" href="../../categories/linux/" rel="tag"><i class="fas fa-tag"></i> linux</a></li>
+            <li><a class="tag p-category" aria-hidden="true" id="unq" href="../../categories/nix/" rel="tag"><i class="fas fa-tag"></i> nix</a></li>
+            <li><a class="tag p-category" aria-hidden="true" id="unq" href="../../categories/nixos/" rel="tag"><i class="fas fa-tag"></i> nixos</a></li>
+            <li><a class="tag p-category" aria-hidden="true" id="unq" href="../../categories/programming/" rel="tag"><i class="fas fa-tag"></i> programming</a></li>
+        </ul>
+<div class="pager hidden-print">
+            <p class="previous">
+                <a href="../a-long-day-on-the-saddle/" rel="prev" title="A long day on the saddle"><i class="fas fa-arrow-circle-left" aria-hidden="true"></i> Previous</a>
+            </p>
+        </div>
+
+    </nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+        
+        
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="iammrinal0",
+            disqus_url="https://mrinalpurohit.in/blog/was-trying-out-nix-all-for-nix/",
+        disqus_title="Was trying out Nix all for nix?",
+        disqus_identifier="cache/posts/was-trying-out-nix-all-for-nix.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        </section></article><script>var disqus_shortname="iammrinal0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p></p>
+<hr>
+<a class="fab fa-github" href="https://github.com/iammrinal0" title="GitHub" target="_blank"></a><a class="fab fa-keybase" href="https://keybase.io/iammrinal0" title="Keybase" target="_blank"></a><a class="fab fa-linkedin" href="https://linkedin.com/in/iammrinal0" title="LinkedIn" target="_blank"></a><a class="fab fa-strava" href="https://strava.com/athletes/iammrinal0" title="Strava" target="_blank"></a><a class="fab fa-twitter" href="https://twitter.com/iammrinal0" title="Twitter" target="_blank"></a><a class="fab fa-instagram" href="https://instagram.com/iammrinal0" title="Instagram" target="_blank"></a><br>© 2019         <a href="mailto:contact@mrinalpurohit.in">Mrinal Purohit</a> - Powered by        <a href="https://getnikola.com" rel="nofollow" target="_blank">Nikola</a> with <a href="https://github.com/iammrinal0/lanyon" target="_blank">Lanyon</a> theme
+            
+        </footer>
+</div>
+    </div>
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+    <script>
+      (function(document) {
+        var toggle = document.querySelector('.sidebar-toggle');
+        var sidebar = document.querySelector('#sidebar');
+        var checkbox = document.querySelector('#sidebar-checkbox');
+        document.addEventListener('click', function(e) {
+          var target = e.target;
+          if(!checkbox.checked ||
+             sidebar.contains(target) ||
+             (target === checkbox || target === toggle)) return;
+          checkbox.checked = false;
+        }, false);
+      })(document);
+    </script><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script><script src="../../assets/js/all.js"></script><script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-576133a19bcabb3e"></script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(2, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

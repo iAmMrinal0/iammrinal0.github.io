@@ -7,7 +7,7 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>https://mrinalpurohit.in/</loc>
-  <lastmod>2019-08-24T19:18:00Z</lastmod>
+  <lastmod>2019-08-25T07:15:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/2016/</loc>
@@ -22,8 +22,12 @@
   <lastmod>2019-08-24T19:18:00Z</lastmod>
  </url>
  <url>
+  <loc>https://mrinalpurohit.in/2019/</loc>
+  <lastmod>2019-08-25T07:15:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://mrinalpurohit.in/404.html</loc>
-  <lastmod>2019-08-24T19:18:00Z</lastmod>
+  <lastmod>2019-08-25T07:05:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/about/</loc>
@@ -31,11 +35,11 @@
  </url>
  <url>
   <loc>https://mrinalpurohit.in/archive.html</loc>
-  <lastmod>2019-08-25T06:56:00Z</lastmod>
+  <lastmod>2019-08-25T07:15:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/blog/</loc>
-  <lastmod>2019-08-24T19:18:00Z</lastmod>
+  <lastmod>2019-08-25T07:15:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/blog/a-long-day-on-the-saddle/</loc>
@@ -70,6 +74,10 @@
   <lastmod>2019-08-24T19:18:00Z</lastmod>
  </url>
  <url>
+  <loc>https://mrinalpurohit.in/blog/page/2/</loc>
+  <lastmod>2019-08-25T07:15:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://mrinalpurohit.in/blog/the-curious-case-of-matching-memory-locations-in-python/</loc>
   <lastmod>2019-08-24T19:18:00Z</lastmod>
  </url>
@@ -82,12 +90,20 @@
   <lastmod>2019-08-24T19:18:00Z</lastmod>
  </url>
  <url>
+  <loc>https://mrinalpurohit.in/blog/was-trying-out-nix-all-for-nix/</loc>
+  <lastmod>2019-08-25T07:15:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://mrinalpurohit.in/categories/</loc>
-  <lastmod>2019-08-24T19:18:00Z</lastmod>
+  <lastmod>2019-09-02T18:21:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/categories/android/</loc>
   <lastmod>2019-08-24T19:18:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://mrinalpurohit.in/categories/arch/</loc>
+  <lastmod>2019-09-02T18:21:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/categories/asyncio/</loc>
@@ -136,6 +152,10 @@
  <url>
   <loc>https://mrinalpurohit.in/categories/cycle/</loc>
   <lastmod>2019-08-24T19:18:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://mrinalpurohit.in/categories/development/</loc>
+  <lastmod>2019-08-25T07:15:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/categories/farewell/</loc>
@@ -206,6 +226,10 @@
   <lastmod>2019-08-24T19:18:00Z</lastmod>
  </url>
  <url>
+  <loc>https://mrinalpurohit.in/categories/linux/</loc>
+  <lastmod>2019-09-02T18:21:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://mrinalpurohit.in/categories/lumia-920/</loc>
   <lastmod>2019-08-24T19:18:00Z</lastmod>
  </url>
@@ -234,6 +258,14 @@
   <lastmod>2019-08-24T19:18:00Z</lastmod>
  </url>
  <url>
+  <loc>https://mrinalpurohit.in/categories/nix/</loc>
+  <lastmod>2019-08-25T07:15:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://mrinalpurohit.in/categories/nixos/</loc>
+  <lastmod>2019-08-25T07:15:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://mrinalpurohit.in/categories/nokia/</loc>
   <lastmod>2019-08-24T19:18:00Z</lastmod>
  </url>
@@ -256,6 +288,10 @@
  <url>
   <loc>https://mrinalpurohit.in/categories/phones/</loc>
   <lastmod>2019-08-24T19:18:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://mrinalpurohit.in/categories/programming/</loc>
+  <lastmod>2019-08-25T07:15:00Z</lastmod>
  </url>
  <url>
   <loc>https://mrinalpurohit.in/categories/purescript/</loc>
