@@ -88,54 +88,54 @@
 <p>So he mentions that when we create a value <code>100</code> and reuse it, Python will point it to the older reference of <code>100</code> as it already exists. He explains about finding memory locations of objects using the <code>id</code> method and how they point to the same memory location. What exactly does the <code>id</code> method do?</p>
 <p><code>id: Return identity of an object</code></p>
 <p>It returns the memory location of an object. This can be used to check if two objects point to the same location. So we will go right ahead and see a few quirks of Python using this.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a>In [<span class="dv">1</span>]: a <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a>In [<span class="dv">2</span>]: b <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a>In [<span class="dv">3</span>]: <span class="bu">id</span>(a)</span>
-<span id="cb1-6"><a href="#cb1-6"></a>Out[<span class="dv">3</span>]: <span class="dv">139944507028096</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a></span>
-<span id="cb1-8"><a href="#cb1-8"></a>In [<span class="dv">4</span>]: <span class="bu">id</span>(b)</span>
-<span id="cb1-9"><a href="#cb1-9"></a>Out[<span class="dv">4</span>]: <span class="dv">139944507028096</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" title="1">In [<span class="dv">1</span>]: a <span class="op">=</span> <span class="dv">100</span></a>
+<a class="sourceLine" id="cb1-2" title="2"></a>
+<a class="sourceLine" id="cb1-3" title="3">In [<span class="dv">2</span>]: b <span class="op">=</span> <span class="dv">100</span></a>
+<a class="sourceLine" id="cb1-4" title="4"></a>
+<a class="sourceLine" id="cb1-5" title="5">In [<span class="dv">3</span>]: <span class="bu">id</span>(a)</a>
+<a class="sourceLine" id="cb1-6" title="6">Out[<span class="dv">3</span>]: <span class="dv">139944507028096</span></a>
+<a class="sourceLine" id="cb1-7" title="7"></a>
+<a class="sourceLine" id="cb1-8" title="8">In [<span class="dv">4</span>]: <span class="bu">id</span>(b)</a>
+<a class="sourceLine" id="cb1-9" title="9">Out[<span class="dv">4</span>]: <span class="dv">139944507028096</span></a></code></pre></div>
 <p>All is well and good in Python land, being memory efficient and all when we initialize something with <code>100</code>. Let's proceed:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>In [<span class="dv">5</span>]: c <span class="op">=</span> <span class="dv">257</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a>In [<span class="dv">6</span>]: d <span class="op">=</span> <span class="dv">257</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a>In [<span class="dv">7</span>]: <span class="bu">id</span>(c)</span>
-<span id="cb2-6"><a href="#cb2-6"></a>Out[<span class="dv">7</span>]: <span class="dv">139944437174032</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a></span>
-<span id="cb2-8"><a href="#cb2-8"></a>In [<span class="dv">8</span>]: <span class="bu">id</span>(d)</span>
-<span id="cb2-9"><a href="#cb2-9"></a>Out[<span class="dv">8</span>]: <span class="dv">139944437170992</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb2-1" title="1">In [<span class="dv">5</span>]: c <span class="op">=</span> <span class="dv">257</span></a>
+<a class="sourceLine" id="cb2-2" title="2"></a>
+<a class="sourceLine" id="cb2-3" title="3">In [<span class="dv">6</span>]: d <span class="op">=</span> <span class="dv">257</span></a>
+<a class="sourceLine" id="cb2-4" title="4"></a>
+<a class="sourceLine" id="cb2-5" title="5">In [<span class="dv">7</span>]: <span class="bu">id</span>(c)</a>
+<a class="sourceLine" id="cb2-6" title="6">Out[<span class="dv">7</span>]: <span class="dv">139944437174032</span></a>
+<a class="sourceLine" id="cb2-7" title="7"></a>
+<a class="sourceLine" id="cb2-8" title="8">In [<span class="dv">8</span>]: <span class="bu">id</span>(d)</a>
+<a class="sourceLine" id="cb2-9" title="9">Out[<span class="dv">8</span>]: <span class="dv">139944437170992</span></a></code></pre></div>
 <p>So what happened exactly? Let's try another example:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>In [<span class="dv">9</span>]: e <span class="op">=</span> <span class="dv">256</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a>In [<span class="dv">10</span>]: f <span class="op">=</span> <span class="dv">256</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a></span>
-<span id="cb3-5"><a href="#cb3-5"></a>In [<span class="dv">11</span>]: <span class="bu">id</span>(e)</span>
-<span id="cb3-6"><a href="#cb3-6"></a>Out[<span class="dv">11</span>]: <span class="dv">139944507033088</span></span>
-<span id="cb3-7"><a href="#cb3-7"></a></span>
-<span id="cb3-8"><a href="#cb3-8"></a>In [<span class="dv">12</span>]: <span class="bu">id</span>(f)</span>
-<span id="cb3-9"><a href="#cb3-9"></a>Out[<span class="dv">12</span>]: <span class="dv">139944507033088</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb3-1" title="1">In [<span class="dv">9</span>]: e <span class="op">=</span> <span class="dv">256</span></a>
+<a class="sourceLine" id="cb3-2" title="2"></a>
+<a class="sourceLine" id="cb3-3" title="3">In [<span class="dv">10</span>]: f <span class="op">=</span> <span class="dv">256</span></a>
+<a class="sourceLine" id="cb3-4" title="4"></a>
+<a class="sourceLine" id="cb3-5" title="5">In [<span class="dv">11</span>]: <span class="bu">id</span>(e)</a>
+<a class="sourceLine" id="cb3-6" title="6">Out[<span class="dv">11</span>]: <span class="dv">139944507033088</span></a>
+<a class="sourceLine" id="cb3-7" title="7"></a>
+<a class="sourceLine" id="cb3-8" title="8">In [<span class="dv">12</span>]: <span class="bu">id</span>(f)</a>
+<a class="sourceLine" id="cb3-9" title="9">Out[<span class="dv">12</span>]: <span class="dv">139944507033088</span></a></code></pre></div>
 <p>Uh...oh! Any guesses what happened here?</p>
 <p><em>Explanation:</em> What Python does here is that it stores all integers from <code>-5</code> to <code>256</code> in memory because they are most frequently used and so it doesn't create new memory locations for those objects, therefore when you access a number in that range, Python just fetches it from memory and returns the value.</p>
 <p>Let me blow your mind even more with the following code:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>In [<span class="dv">13</span>]: <span class="bu">id</span>(<span class="dv">257</span>)</span>
-<span id="cb4-2"><a href="#cb4-2"></a>Out[<span class="dv">13</span>]: <span class="dv">139944437173872</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a></span>
-<span id="cb4-4"><a href="#cb4-4"></a>In [<span class="dv">14</span>]: <span class="bu">print</span>(<span class="bu">id</span>(<span class="dv">257</span>), <span class="bu">id</span>(<span class="dv">257</span>), <span class="bu">id</span>(<span class="dv">257</span>) <span class="op">==</span> <span class="bu">id</span>(<span class="dv">257</span>))</span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="dv">139944437171184</span> <span class="dv">139944437171184</span> <span class="va">True</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" title="1">In [<span class="dv">13</span>]: <span class="bu">id</span>(<span class="dv">257</span>)</a>
+<a class="sourceLine" id="cb4-2" title="2">Out[<span class="dv">13</span>]: <span class="dv">139944437173872</span></a>
+<a class="sourceLine" id="cb4-3" title="3"></a>
+<a class="sourceLine" id="cb4-4" title="4">In [<span class="dv">14</span>]: <span class="bu">print</span>(<span class="bu">id</span>(<span class="dv">257</span>), <span class="bu">id</span>(<span class="dv">257</span>), <span class="bu">id</span>(<span class="dv">257</span>) <span class="op">==</span> <span class="bu">id</span>(<span class="dv">257</span>))</a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="dv">139944437171184</span> <span class="dv">139944437171184</span> <span class="va">True</span></a></code></pre></div>
 <p>Woah, what kind of sorcery is this? You must be like, <em>"Hey, you just told me that numbers after <code>256</code> get a different address every time, so what happened here?"</em></p>
 <p><em>Explanation:</em> The reason is that when Python encounters constants in a single statement, it adds them to a dictionary and looks up in the dictionary for every constant. If it finds it in the dictionary, then it reuses the existing memory location. This is not the case in <code>In[5]</code> and <code>In[6]</code> because they are two separate statements.</p>
 <p>Let's take it up a notch and try exploring more:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>In [<span class="dv">15</span>]: <span class="kw">def</span> func():</span>
-<span id="cb5-2"><a href="#cb5-2"></a>    ...:     a <span class="op">=</span> <span class="dv">257</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a>    ...:     b <span class="op">=</span> <span class="dv">257</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a>    ...:     <span class="cf">return</span> <span class="bu">id</span>(a) <span class="op">==</span> <span class="bu">id</span>(b)</span>
-<span id="cb5-5"><a href="#cb5-5"></a>    ...:</span>
-<span id="cb5-6"><a href="#cb5-6"></a></span>
-<span id="cb5-7"><a href="#cb5-7"></a>In [<span class="dv">16</span>]: func()</span>
-<span id="cb5-8"><a href="#cb5-8"></a>Out[<span class="dv">16</span>]: <span class="va">True</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb5-1" title="1">In [<span class="dv">15</span>]: <span class="kw">def</span> func():</a>
+<a class="sourceLine" id="cb5-2" title="2">    ...:     a <span class="op">=</span> <span class="dv">257</span></a>
+<a class="sourceLine" id="cb5-3" title="3">    ...:     b <span class="op">=</span> <span class="dv">257</span></a>
+<a class="sourceLine" id="cb5-4" title="4">    ...:     <span class="cf">return</span> <span class="bu">id</span>(a) <span class="op">==</span> <span class="bu">id</span>(b)</a>
+<a class="sourceLine" id="cb5-5" title="5">    ...:</a>
+<a class="sourceLine" id="cb5-6" title="6"></a>
+<a class="sourceLine" id="cb5-7" title="7">In [<span class="dv">16</span>]: func()</a>
+<a class="sourceLine" id="cb5-8" title="8">Out[<span class="dv">16</span>]: <span class="va">True</span></a></code></pre></div>
 <p>We found that for numbers above <code>256</code>, Python stores them in new memory locations unless they are used in the same line/statement. However in the above example, they are separate statements and still return <code>True</code> when we compare the memory locations. So why the odd behaviour?</p>
 <p><em>Explanation:</em> The reason behind this is that within the same compiler scope like in a function or a class, everything is stored in a <code>constants</code> dictionary (<code>consts</code> in actual code) and hence any time a constant is encountered, it is first checked in the <code>constants</code> dictionary and if it's present then it doesn't store it in a new memory location and if not then goes ahead and stores it. Python's idea of optimization during compile time. I had this doubt for a long time which was later cleared by Prasanth Raghu, whom I met in one of the future meetups who also had been working with the CPython code for quite some time. Have a look at the following links to get a better understanding of the flow.</p>
 <ul>
@@ -220,7 +220,7 @@
 
         </section></article><script>var disqus_shortname="iammrinal0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p></p>
 <hr>
-<a class="fab fa-github" href="https://github.com/iammrinal0" title="GitHub" target="_blank"></a><a class="fab fa-keybase" href="https://keybase.io/iammrinal0" title="Keybase" target="_blank"></a><a class="fab fa-linkedin" href="https://linkedin.com/in/iammrinal0" title="LinkedIn" target="_blank"></a><a class="fab fa-strava" href="https://strava.com/athletes/iammrinal0" title="Strava" target="_blank"></a><a class="fab fa-twitter" href="https://twitter.com/iammrinal0" title="Twitter" target="_blank"></a><a class="fab fa-instagram" href="https://instagram.com/iammrinal0" title="Instagram" target="_blank"></a><br>© 2019         <a href="mailto:contact@mrinalpurohit.in">Mrinal Purohit</a> - Powered by        <a href="https://getnikola.com" rel="nofollow" target="_blank">Nikola</a> with <a href="https://github.com/iammrinal0/lanyon" target="_blank">Lanyon</a> theme
+<a class="fab fa-github" href="https://github.com/iammrinal0" title="GitHub" target="_blank"></a><a class="fab fa-keybase" href="https://keybase.io/iammrinal0" title="Keybase" target="_blank"></a><a class="fab fa-linkedin" href="https://linkedin.com/in/iammrinal0" title="LinkedIn" target="_blank"></a><a class="fab fa-strava" href="https://strava.com/athletes/iammrinal0" title="Strava" target="_blank"></a><a class="fab fa-twitter" href="https://twitter.com/iammrinal0" title="Twitter" target="_blank"></a><a class="fab fa-instagram" href="https://instagram.com/iammrinal0" title="Instagram" target="_blank"></a><br>© 2020         <a href="mailto:contact@mrinalpurohit.in">Mrinal Purohit</a> - Powered by        <a href="https://getnikola.com" rel="nofollow" target="_blank">Nikola</a> with <a href="https://github.com/iammrinal0/lanyon" target="_blank">Lanyon</a> theme
             
         </footer>
 </div>
