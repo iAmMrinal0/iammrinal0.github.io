@@ -62,7 +62,7 @@
         <div class="metadata">
             <p class="dateline"><time class="post-date published dt-published" datetime="2018-02-28T14:23:53+05:30" itemprop="datePublished" title="28-Feb-2018 14:02">28-Feb-2018 14:02</time></p>
                  <p class="commentline">
-        
+    
     <a href="#disqus_thread" data-disqus-identifier="cache/posts/using-lenses-in-purescript.html">Comments</a>
 
 
@@ -85,117 +85,117 @@
 <p>I believe we all have come across interesting problems while programming and once we found the solution or an easier way to do it, we had our minds blown away. I had a similar feeling when I discovered <code>lenses</code> and started using them. No, I am not talking about <!-- TEASER_END --> my glasses or eye lenses. I am talking about <code>lenses</code> in <a href="https://github.com/ekmett/lens">Haskell</a> or <a href="https://github.com/purescript-contrib/purescript-profunctor-lenses">PureScript.</a> Incase you didn't know, we use PureScript at Juspay and after looking at the code for one of our projects, someone came up with a suggestion to use <code>lenses.</code> I had heard of the term, however never found a reason to use it. And now seemed like a good chance to do that.</p>
 <p><b>Update:</b> If you've read this post already then you should check out the end as I've updated the post to describe a shorter way to define lenses.</p>
 <p>So let's start with the problem we have and how we would solve it. Let's say we have a lot of records which are wrapped in a constructor. Something like the following:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">newtype</span> <span class="dt">Person</span> <span class="ot">=</span> <span class="dt">Person</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a>  {<span class="ot"> id ::</span> <span class="dt">String</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a>  ,<span class="ot"> name ::</span> <span class="dt">String</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a>  ,<span class="ot"> location ::</span> <span class="dt">String</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a>  }</span>
-<span id="cb1-6"><a href="#cb1-6"></a></span>
-<span id="cb1-7"><a href="#cb1-7"></a>derive <span class="kw">instance</span><span class="ot"> newtypePerson ::</span> <span class="dt">Newtype</span> <span class="dt">Person</span> _</span>
-<span id="cb1-8"><a href="#cb1-8"></a></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="kw">newtype</span> <span class="dt">Tweet</span> <span class="ot">=</span> <span class="dt">Tweet</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a>  {<span class="ot"> id ::</span> <span class="dt">String</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a>  ,<span class="ot"> content ::</span> <span class="dt">String</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a>  ,<span class="ot"> location ::</span> <span class="dt">String</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a>  }</span>
-<span id="cb1-14"><a href="#cb1-14"></a></span>
-<span id="cb1-15"><a href="#cb1-15"></a>derive <span class="kw">instance</span><span class="ot"> newtypeTweet ::</span> <span class="dt">Newtype</span> <span class="dt">Tweet</span> _</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Person</span> <span class="ot">=</span> <span class="dt">Person</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>  {<span class="ot"> id ::</span> <span class="dt">String</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>  ,<span class="ot"> name ::</span> <span class="dt">String</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>  ,<span class="ot"> location ::</span> <span class="dt">String</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>  }</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>derive <span class="kw">instance</span><span class="ot"> newtypePerson ::</span> <span class="dt">Newtype</span> <span class="dt">Person</span> _</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Tweet</span> <span class="ot">=</span> <span class="dt">Tweet</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>  {<span class="ot"> id ::</span> <span class="dt">String</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>  ,<span class="ot"> content ::</span> <span class="dt">String</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a>  ,<span class="ot"> location ::</span> <span class="dt">String</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a>  }</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a>derive <span class="kw">instance</span><span class="ot"> newtypeTweet ::</span> <span class="dt">Newtype</span> <span class="dt">Tweet</span> _</span></code></pre></div>
 <p>And now to access the field <code>location</code> in a <code>Person</code> record, we might do something like this:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1"></a><span class="ot">getLocFromPerson ::</span> <span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>getLocFromPerson (<span class="dt">Person</span> person) <span class="ot">=</span> person<span class="op">.</span>location</span>
-<span id="cb2-3"><a href="#cb2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="ot">getLocFromPerson' ::</span> <span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a>getLocFromPerson' (<span class="dt">Person</span> {location}) <span class="ot">=</span> location</span>
-<span id="cb2-6"><a href="#cb2-6"></a></span>
-<span id="cb2-7"><a href="#cb2-7"></a>personRec <span class="ot">=</span> <span class="dt">Person</span> {<span class="fu">id</span><span class="op">:</span> <span class="st">"1"</span>, name<span class="op">:</span> <span class="st">"Luke Skywalker"</span>, location<span class="op">:</span> <span class="st">"Ahch-To"</span>}</span>
-<span id="cb2-8"><a href="#cb2-8"></a>location <span class="ot">=</span> getLocFromPerson personRec</span>
-<span id="cb2-9"><a href="#cb2-9"></a>location' <span class="ot">=</span> getLocFromPerson' personRec</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="ot">getLocFromPerson ::</span> <span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>getLocFromPerson (<span class="dt">Person</span> person) <span class="ot">=</span> person<span class="op">.</span>location</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a><span class="ot">getLocFromPerson' ::</span> <span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>getLocFromPerson' (<span class="dt">Person</span> {location}) <span class="ot">=</span> location</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>personRec <span class="ot">=</span> <span class="dt">Person</span> {<span class="fu">id</span><span class="op">:</span> <span class="st">"1"</span>, name<span class="op">:</span> <span class="st">"Luke Skywalker"</span>, location<span class="op">:</span> <span class="st">"Ahch-To"</span>}</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>location <span class="ot">=</span> getLocFromPerson personRec</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a>location' <span class="ot">=</span> getLocFromPerson' personRec</span></code></pre></div>
 <p>Or as we have a <code>newtype</code> instance for the <code>Person</code> type we could do this:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1"></a><span class="ot">getLocFromPerson'' ::</span> <span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>getLocFromPerson'' person <span class="ot">=</span> unwrap <span class="op">&gt;&gt;&gt;</span> _<span class="op">.</span>location <span class="op">$</span> person</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="ot">getLocFromPerson'' ::</span> <span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>getLocFromPerson'' person <span class="ot">=</span> unwrap <span class="op">&gt;&gt;&gt;</span> _<span class="op">.</span>location <span class="op">$</span> person</span></code></pre></div>
 <p>What if we want to access <code>location</code> from a <code>Tweet</code> type record?</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1"></a><span class="ot">getLocFromTweet ::</span> <span class="dt">Tweet</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>getLocFromTweet (<span class="dt">Tweet</span> tweet) <span class="ot">=</span> tweet<span class="op">.</span>location</span>
-<span id="cb4-3"><a href="#cb4-3"></a></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="ot">getLocFromTweet' ::</span> <span class="dt">Tweet</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a>getLocFromTweet' (<span class="dt">Tweet</span> {location}) <span class="ot">=</span> location</span>
-<span id="cb4-6"><a href="#cb4-6"></a></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="ot">getLocFromTweet'' ::</span> <span class="dt">Tweet</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a>getLocFromTweet'' tweet <span class="ot">=</span> unwrap <span class="op">&gt;&gt;&gt;</span> _<span class="op">.</span>location <span class="op">$</span> tweet</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="ot">getLocFromTweet ::</span> <span class="dt">Tweet</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>getLocFromTweet (<span class="dt">Tweet</span> tweet) <span class="ot">=</span> tweet<span class="op">.</span>location</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a><span class="ot">getLocFromTweet' ::</span> <span class="dt">Tweet</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>getLocFromTweet' (<span class="dt">Tweet</span> {location}) <span class="ot">=</span> location</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a><span class="ot">getLocFromTweet'' ::</span> <span class="dt">Tweet</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true"></a>getLocFromTweet'' tweet <span class="ot">=</span> unwrap <span class="op">&gt;&gt;&gt;</span> _<span class="op">.</span>location <span class="op">$</span> tweet</span></code></pre></div>
 <p>Feels a bit redundant, doesn't it? Having to type the same thing again and again? There's a solution to this.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1"></a><span class="ot">getLocation ::</span> <span class="kw">forall</span> a b c<span class="op">.</span> <span class="dt">Newtype</span> a {<span class="ot"> location ::</span> c <span class="op">|</span> b } <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> c</span>
-<span id="cb5-2"><a href="#cb5-2"></a>getLocation <span class="ot">=</span> unwrap <span class="op">&gt;&gt;&gt;</span> _<span class="op">.</span>location <span class="co">-- A</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="ot">getLocation ::</span> <span class="kw">forall</span> a b c<span class="op">.</span> <span class="dt">Newtype</span> a {<span class="ot"> location ::</span> c <span class="op">|</span> b } <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> c</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>getLocation <span class="ot">=</span> unwrap <span class="op">&gt;&gt;&gt;</span> _<span class="op">.</span>location <span class="co">-- A</span></span></code></pre></div>
 <p>Now this is generic enough which will work on all records which have a <code>Newtype</code> instance and have a <code>location</code> field in the record. Also, if you notice the type signature of the function, you will find that we don't specify the type of <code>location</code> which means this would work for any type of the <code>location</code> field.</p>
 <p>This is still not intuitive enough, and imagine every time having to write:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1"></a>location' <span class="ot">=</span> getLocation personRecord</span>
-<span id="cb6-2"><a href="#cb6-2"></a>location'' <span class="ot">=</span> getLocation tweetRecord</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>location' <span class="ot">=</span> getLocation personRecord</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>location'' <span class="ot">=</span> getLocation tweetRecord</span></code></pre></div>
 <p>But imagine writing something along the lines of</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1"></a>location' <span class="ot">=</span> personRecord<span class="op">.</span>location</span>
-<span id="cb7-2"><a href="#cb7-2"></a>location'' <span class="ot">=</span> tweetRecord<span class="op">.</span>location</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>location' <span class="ot">=</span> personRecord<span class="op">.</span>location</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>location'' <span class="ot">=</span> tweetRecord<span class="op">.</span>location</span></code></pre></div>
 <p>This is how you would do in JavaScript or Python and it feels natural, right?</p>
 <p>Here is where <code>lenses</code> come in. At this point you don't need to know how they work underneath. So we will get into how to use them right away.</p>
 <p>Basically, you create a lens for the record, the fields, with the getters and setters and then you can use the functions <code>lens</code> provides for getting a field and setting a field. So how to create a lens for the <code>Person</code> type and <code>Tweet</code> type?</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1"></a>_locationPerson <span class="ot">=</span> lens (\(<span class="dt">Person</span> person) <span class="ot">-&gt;</span> person<span class="op">.</span>location)</span>
-<span id="cb8-2"><a href="#cb8-2"></a>                  (\(<span class="dt">Person</span> person) newValue <span class="ot">-&gt;</span> <span class="dt">Person</span> person {location <span class="ot">=</span> newValue})</span>
-<span id="cb8-3"><a href="#cb8-3"></a></span>
-<span id="cb8-4"><a href="#cb8-4"></a>_locationTweet <span class="ot">=</span> lens (\(<span class="dt">Tweet</span> tweet) <span class="ot">-&gt;</span> tweet<span class="op">.</span>location)</span>
-<span id="cb8-5"><a href="#cb8-5"></a>                 (\(<span class="dt">Tweet</span> tweet) newValue <span class="ot">-&gt;</span> <span class="dt">Tweet</span> tweet {location <span class="ot">=</span> newValue})</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a>_locationPerson <span class="ot">=</span> lens (\(<span class="dt">Person</span> person) <span class="ot">-&gt;</span> person<span class="op">.</span>location)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a>                  (\(<span class="dt">Person</span> person) newValue <span class="ot">-&gt;</span> <span class="dt">Person</span> person {location <span class="ot">=</span> newValue})</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true"></a>_locationTweet <span class="ot">=</span> lens (\(<span class="dt">Tweet</span> tweet) <span class="ot">-&gt;</span> tweet<span class="op">.</span>location)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true"></a>                 (\(<span class="dt">Tweet</span> tweet) newValue <span class="ot">-&gt;</span> <span class="dt">Tweet</span> tweet {location <span class="ot">=</span> newValue})</span></code></pre></div>
 <p>The first argument to the <code>lens</code> function is the getter for the <code>location</code> field and second is another function which is setter for the <code>location</code> field.</p>
 <p>There's another way to create lenses for a field rather than writing the complete getters and setters. What we do is, we create a lens for the type with the getter and setter and compose the same to get lenses for the fields.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1"></a>personLens <span class="ot">=</span> lens (\(<span class="dt">Person</span> person) <span class="ot">-&gt;</span> person) (\_ <span class="ot">-&gt;</span> <span class="dt">Person</span>)</span>
-<span id="cb9-2"><a href="#cb9-2"></a>tweetLens <span class="ot">=</span> lens (\(<span class="dt">Tweet</span> tweet) <span class="ot">-&gt;</span> tweet) (\_ <span class="ot">-&gt;</span> <span class="dt">Tweet</span>)</span>
-<span id="cb9-3"><a href="#cb9-3"></a></span>
-<span id="cb9-4"><a href="#cb9-4"></a>locationProp <span class="ot">=</span> prop (<span class="dt">SProxy</span><span class="ot"> ::</span> <span class="dt">SProxy</span> <span class="st">"location"</span>)</span>
-<span id="cb9-5"><a href="#cb9-5"></a></span>
-<span id="cb9-6"><a href="#cb9-6"></a>locationPersonLens <span class="ot">=</span> personLens <span class="op">&lt;&lt;&lt;</span> locationProp</span>
-<span id="cb9-7"><a href="#cb9-7"></a>locationTweetLens <span class="ot">=</span> tweetLens <span class="op">&lt;&lt;&lt;</span> locationProp</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a>personLens <span class="ot">=</span> lens (\(<span class="dt">Person</span> person) <span class="ot">-&gt;</span> person) (\_ <span class="ot">-&gt;</span> <span class="dt">Person</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a>tweetLens <span class="ot">=</span> lens (\(<span class="dt">Tweet</span> tweet) <span class="ot">-&gt;</span> tweet) (\_ <span class="ot">-&gt;</span> <span class="dt">Tweet</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a>locationProp <span class="ot">=</span> prop (<span class="dt">SProxy</span><span class="ot"> ::</span> <span class="dt">SProxy</span> <span class="st">"location"</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true"></a>locationPersonLens <span class="ot">=</span> personLens <span class="op">&lt;&lt;&lt;</span> locationProp</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true"></a>locationTweetLens <span class="ot">=</span> tweetLens <span class="op">&lt;&lt;&lt;</span> locationProp</span></code></pre></div>
 <p>And now you can use something along the lines of: <code>^.</code> which is an alias for <code>viewOn</code></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1"></a>locationPerson <span class="ot">=</span> personRecord <span class="op">^.</span> _locationPerson</span>
-<span id="cb10-2"><a href="#cb10-2"></a>locationTweet <span class="ot">=</span> tweetRecord <span class="op">^.</span> _locationTweet</span>
-<span id="cb10-3"><a href="#cb10-3"></a></span>
-<span id="cb10-4"><a href="#cb10-4"></a><span class="co">-- or</span></span>
-<span id="cb10-5"><a href="#cb10-5"></a>locationPerson' <span class="ot">=</span> viewOn _personRecord locationPerson</span>
-<span id="cb10-6"><a href="#cb10-6"></a>locationTweet' <span class="ot">=</span> viewOn _tweetRecord locationTweet</span>
-<span id="cb10-7"><a href="#cb10-7"></a></span>
-<span id="cb10-8"><a href="#cb10-8"></a><span class="co">-- or</span></span>
-<span id="cb10-9"><a href="#cb10-9"></a>locationPerson'' <span class="ot">=</span> view _locationPerson personRecord</span>
-<span id="cb10-10"><a href="#cb10-10"></a>locationTweet'' <span class="ot">=</span> view _locationTweet tweetRecord</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a>locationPerson <span class="ot">=</span> personRecord <span class="op">^.</span> _locationPerson</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>locationTweet <span class="ot">=</span> tweetRecord <span class="op">^.</span> _locationTweet</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a><span class="co">-- or</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true"></a>locationPerson' <span class="ot">=</span> viewOn _personRecord locationPerson</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true"></a>locationTweet' <span class="ot">=</span> viewOn _tweetRecord locationTweet</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true"></a><span class="co">-- or</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true"></a>locationPerson'' <span class="ot">=</span> view _locationPerson personRecord</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true"></a>locationTweet'' <span class="ot">=</span> view _locationTweet tweetRecord</span></code></pre></div>
 <p>Or if we want to use the lens defined using <code>prop</code> it's the same.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1"></a>locationPerson <span class="ot">=</span> personRecord <span class="op">^.</span> locationPersonLens</span>
-<span id="cb11-2"><a href="#cb11-2"></a>locationTweet <span class="ot">=</span> tweetRecord <span class="op">^.</span> locationTweetLens</span>
-<span id="cb11-3"><a href="#cb11-3"></a></span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="co">-- or</span></span>
-<span id="cb11-5"><a href="#cb11-5"></a>locationPerson' <span class="ot">=</span> viewOn _personRecord locationPersonLens</span>
-<span id="cb11-6"><a href="#cb11-6"></a>locationTweet' <span class="ot">=</span> viewOn _tweetRecord locationTweetLens</span>
-<span id="cb11-7"><a href="#cb11-7"></a></span>
-<span id="cb11-8"><a href="#cb11-8"></a><span class="co">-- or</span></span>
-<span id="cb11-9"><a href="#cb11-9"></a>locationPerson'' <span class="ot">=</span> view locationPersonLens personRecord</span>
-<span id="cb11-10"><a href="#cb11-10"></a>locationTweet'' <span class="ot">=</span> view locationTweetLens tweetRecord</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a>locationPerson <span class="ot">=</span> personRecord <span class="op">^.</span> locationPersonLens</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a>locationTweet <span class="ot">=</span> tweetRecord <span class="op">^.</span> locationTweetLens</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true"></a><span class="co">-- or</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true"></a>locationPerson' <span class="ot">=</span> viewOn _personRecord locationPersonLens</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true"></a>locationTweet' <span class="ot">=</span> viewOn _tweetRecord locationTweetLens</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true"></a><span class="co">-- or</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true"></a>locationPerson'' <span class="ot">=</span> view locationPersonLens personRecord</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true"></a>locationTweet'' <span class="ot">=</span> view locationTweetLens tweetRecord</span></code></pre></div>
 <p>However, if you notice, you will find that we are creating a lot of lenses which are redundant. Creating a lens for the same field in different types of records is useless and goes against why we want to use lenses. So let's resuse our solution up in <code>A</code> and make this generic so we can use it in our <code>lens</code> definition.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1"></a><span class="ot">_location ::</span> <span class="kw">forall</span> a b c<span class="op">.</span> <span class="dt">Newtype</span> a {<span class="ot">location ::</span> c <span class="op">|</span> b} <span class="ot">=&gt;</span> <span class="dt">Lens'</span> a c</span>
-<span id="cb12-2"><a href="#cb12-2"></a>_location <span class="ot">=</span> lens (unwrap <span class="op">&gt;&gt;&gt;</span> _<span class="op">.</span>location)</span>
-<span id="cb12-3"><a href="#cb12-3"></a>            (\record newValue <span class="ot">-&gt;</span> wrap <span class="op">$</span> (unwrap record) { location <span class="ot">=</span> newValue })</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="ot">_location ::</span> <span class="kw">forall</span> a b c<span class="op">.</span> <span class="dt">Newtype</span> a {<span class="ot">location ::</span> c <span class="op">|</span> b} <span class="ot">=&gt;</span> <span class="dt">Lens'</span> a c</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a>_location <span class="ot">=</span> lens (unwrap <span class="op">&gt;&gt;&gt;</span> _<span class="op">.</span>location)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a>            (\record newValue <span class="ot">-&gt;</span> wrap <span class="op">$</span> (unwrap record) { location <span class="ot">=</span> newValue })</span></code></pre></div>
 <p>Now, does this not look generic enough? This would work for any record which has a <code>Newtype</code> instance and also has the field <code>location</code> and as our type definition is generic enough this can be used for any type of field <code>location</code>. And our accessor functions change to:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1"></a>locationPerson <span class="ot">=</span> personRecord <span class="op">^.</span> _location</span>
-<span id="cb13-2"><a href="#cb13-2"></a>locationTweet <span class="ot">=</span> tweetRecord <span class="op">^.</span> _location</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a>locationPerson <span class="ot">=</span> personRecord <span class="op">^.</span> _location</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a>locationTweet <span class="ot">=</span> tweetRecord <span class="op">^.</span> _location</span></code></pre></div>
 <p>And to set a value in a record, we would usually do:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1"></a><span class="ot">setLocPerson ::</span> <span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Person</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a>setLocPerson (<span class="dt">Person</span> person) newLocation <span class="ot">=</span> <span class="dt">Person</span> person {location <span class="ot">=</span> newLocation}</span>
-<span id="cb14-3"><a href="#cb14-3"></a></span>
-<span id="cb14-4"><a href="#cb14-4"></a><span class="ot">setLocTweet ::</span> <span class="dt">Tweet</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tweet</span></span>
-<span id="cb14-5"><a href="#cb14-5"></a>setLocTweet (<span class="dt">Tweet</span> tweet) newLocation <span class="ot">=</span> <span class="dt">Tweet</span> tweet {location <span class="ot">=</span> newLocation}</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="ot">setLocPerson ::</span> <span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Person</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a>setLocPerson (<span class="dt">Person</span> person) newLocation <span class="ot">=</span> <span class="dt">Person</span> person {location <span class="ot">=</span> newLocation}</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true"></a><span class="ot">setLocTweet ::</span> <span class="dt">Tweet</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tweet</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true"></a>setLocTweet (<span class="dt">Tweet</span> tweet) newLocation <span class="ot">=</span> <span class="dt">Tweet</span> tweet {location <span class="ot">=</span> newLocation}</span></code></pre></div>
 <p>Instead, now we can use the functionality <code>lens</code> provides and use the setter function:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1"></a>newPerson <span class="ot">=</span> set _location <span class="st">"Tatooine"</span> personRecord</span>
-<span id="cb15-2"><a href="#cb15-2"></a>newTweet <span class="ot">=</span> set _location <span class="st">"Dagobah"</span> tweetRecord</span>
-<span id="cb15-3"><a href="#cb15-3"></a></span>
-<span id="cb15-4"><a href="#cb15-4"></a><span class="co">-- or</span></span>
-<span id="cb15-5"><a href="#cb15-5"></a>newPerson' <span class="ot">=</span> personRecord <span class="op">#</span> _location <span class="op">.~</span> <span class="st">"Tatooine"</span></span>
-<span id="cb15-6"><a href="#cb15-6"></a>newTweet' <span class="ot">=</span> tweetRecord <span class="op">#</span> _location <span class="op">.~</span> <span class="st">"Dagobah"</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a>newPerson <span class="ot">=</span> set _location <span class="st">"Tatooine"</span> personRecord</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true"></a>newTweet <span class="ot">=</span> set _location <span class="st">"Dagobah"</span> tweetRecord</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true"></a><span class="co">-- or</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true"></a>newPerson' <span class="ot">=</span> personRecord <span class="op">#</span> _location <span class="op">.~</span> <span class="st">"Tatooine"</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true"></a>newTweet' <span class="ot">=</span> tweetRecord <span class="op">#</span> _location <span class="op">.~</span> <span class="st">"Dagobah"</span></span></code></pre></div>
 <p>So, that's it for a bit of basics on how to get started with <code>lens</code> and hope you understood. And if not, let me know in the comments and I will try to clarify them out.</p>
 <h3 id="update">Update</h3>
 <p>Thanks to the functionalprogramming Slack group I came across an interesting and shorter way to define our lenses and what we did is basically the more verbose way. The shorter solution is just using helper functions which do the work of what we are doing above.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1"></a><span class="ot">_location ::</span> <span class="kw">forall</span> a b c<span class="op">.</span> <span class="dt">Newtype</span> a {<span class="ot">location ::</span> c <span class="op">|</span> b} <span class="ot">=&gt;</span> <span class="dt">Lens'</span> a c</span>
-<span id="cb16-2"><a href="#cb16-2"></a>_location <span class="ot">=</span> _Newtype <span class="op">&lt;&lt;&lt;</span> prop (<span class="dt">SProxy</span><span class="ot"> ::</span> <span class="dt">SProxy</span> <span class="st">"location"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a><span class="ot">_location ::</span> <span class="kw">forall</span> a b c<span class="op">.</span> <span class="dt">Newtype</span> a {<span class="ot">location ::</span> c <span class="op">|</span> b} <span class="ot">=&gt;</span> <span class="dt">Lens'</span> a c</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true"></a>_location <span class="ot">=</span> _Newtype <span class="op">&lt;&lt;&lt;</span> prop (<span class="dt">SProxy</span><span class="ot"> ::</span> <span class="dt">SProxy</span> <span class="st">"location"</span>)</span></code></pre></div>
 <p>And that's it. The <code>prop</code> function gives us a getter and setter for the field <code>location</code> and the <code>_Newtype</code> function gives us an <code>iso</code> which does <code>unwrap</code> and <code>wrap</code> for us which we were performing in our older solution.</p>
 <p>Curious about what else lenses could do? Thomas Honeyman wrote a wonderful article on the practical approach to using lenses. Read more about it <a href="https://thomashoneyman.com/articles/practical-profunctor-lenses-optics/">here</a>.</p>
 <h2 id="references">References:</h2>
@@ -228,7 +228,7 @@
 
     </nav></aside><section class="comments hidden-print"><h2>Comments</h2>
         
-        
+    
         <div id="disqus_thread"></div>
         <script>
         var disqus_shortname ="iammrinal0",
@@ -250,7 +250,7 @@
 
         </section></article><script>var disqus_shortname="iammrinal0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p></p>
 <hr>
-<a class="fab fa-github" href="https://github.com/iammrinal0" title="GitHub" target="_blank"></a><a class="fab fa-keybase" href="https://keybase.io/iammrinal0" title="Keybase" target="_blank"></a><a class="fab fa-linkedin" href="https://linkedin.com/in/iammrinal0" title="LinkedIn" target="_blank"></a><a class="fab fa-strava" href="https://strava.com/athletes/iammrinal0" title="Strava" target="_blank"></a><a class="fab fa-twitter" href="https://twitter.com/iammrinal0" title="Twitter" target="_blank"></a><a class="fab fa-instagram" href="https://instagram.com/iammrinal0" title="Instagram" target="_blank"></a><br>© 2020         <a href="mailto:contact@mrinalpurohit.in">Mrinal Purohit</a> - Powered by        <a href="https://getnikola.com" rel="nofollow" target="_blank">Nikola</a> with <a href="https://github.com/iammrinal0/lanyon" target="_blank">Lanyon</a> theme
+<a class="fab fa-github" href="https://github.com/iammrinal0" title="GitHub" target="_blank"></a><a class="fab fa-keybase" href="https://keybase.io/iammrinal0" title="Keybase" target="_blank"></a><a class="fab fa-linkedin" href="https://linkedin.com/in/iammrinal0" title="LinkedIn" target="_blank"></a><a class="fab fa-strava" href="https://strava.com/athletes/iammrinal0" title="Strava" target="_blank"></a><a class="fab fa-twitter" href="https://twitter.com/iammrinal0" title="Twitter" target="_blank"></a><a class="fab fa-instagram" href="https://instagram.com/iammrinal0" title="Instagram" target="_blank"></a><br>© 2024         <a href="mailto:contact@mrinalpurohit.in">Mrinal Purohit</a> - Powered by        <a href="https://getnikola.com" rel="nofollow" target="_blank">Nikola</a> with <a href="https://github.com/iammrinal0/lanyon" target="_blank">Lanyon</a> theme
             
         </footer>
 </div>

@@ -62,7 +62,7 @@
         <div class="metadata">
             <p class="dateline"><time class="post-date published dt-published" datetime="2016-11-16T10:12:18+05:30" itemprop="datePublished" title="16-Nov-2016 10:11">16-Nov-2016 10:11</time></p>
                  <p class="commentline">
-        
+    
     <a href="#disqus_thread" data-disqus-identifier="cache/posts/a-webserver-in-python-using-asyncio.html">Comments</a>
 
 
@@ -86,17 +86,17 @@
 <p>I had a rudimentary implementation using threads based on previous work by ex-Geekskool students and had to port it to Python 3 and add more features. Most of the time was spent in reading the <a href="https://www.ietf.org/rfc/rfc2616.txt">HTTP RFC spec</a> which even though time consuming, gave a glimpse about what all goes in the HTTP/1.1 protocol, the syntax, the required request and response headers.</p>
 <p>I commenced with moving the server from a threads based approach to the new and shiny asyncio based approach. I had to read up on why the async approach was brought in the first place, the pros and cons of threads and when to use threads and when to use async.</p>
 <p>In the older code base, the threads version, <code>2048</code> bytes were read from a socket every time, till there was no data to read, which looked inefficient. In the async based approach, I started with the same methodology till I found a method, in the async <code>reader</code> object called <code>readuntil</code> which I used to read till the delimiter <code>\r\n\r\n</code> which gives the complete header and for the body I took the <code>Content-Length</code> field from the header and used a method <code>readexactly</code> to read the exact bytes of the body.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">def</span> check_content(headers):</a>
-<a class="sourceLine" id="cb1-2" title="2">    <span class="cf">if</span> b<span class="st">"Content-Length"</span> <span class="kw">in</span> headers:</a>
-<a class="sourceLine" id="cb1-3" title="3">        con_pos <span class="op">=</span> headers.find(b<span class="st">"Content-Length"</span>)</a>
-<a class="sourceLine" id="cb1-4" title="4">        col_pos <span class="op">=</span> headers.find(b<span class="st">":"</span>, con_pos)</a>
-<a class="sourceLine" id="cb1-5" title="5">        srsn <span class="op">=</span> headers.find(b<span class="st">"</span><span class="ch">\r\n</span><span class="st">"</span>, col_pos)</a>
-<a class="sourceLine" id="cb1-6" title="6">        con_len <span class="op">=</span> <span class="bu">int</span>(headers[col_pos <span class="op">+</span> <span class="dv">2</span>:srsn])</a>
-<a class="sourceLine" id="cb1-7" title="7">        <span class="cf">return</span> con_len</a></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb2-1" title="1">header <span class="op">=</span> <span class="cf">await</span> reader.readuntil(b<span class="st">"</span><span class="ch">\r\n\r\n</span><span class="st">"</span>)</a>
-<a class="sourceLine" id="cb2-2" title="2">content_length <span class="op">=</span> check_content(header)</a>
-<a class="sourceLine" id="cb2-3" title="3"><span class="cf">if</span> content_length:</a>
-<a class="sourceLine" id="cb2-4" title="4">    content <span class="op">=</span> <span class="cf">await</span> reader.readexactly(content_length)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">def</span> check_content(headers):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>    <span class="cf">if</span> b<span class="st">"Content-Length"</span> <span class="kw">in</span> headers:</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>        con_pos <span class="op">=</span> headers.find(b<span class="st">"Content-Length"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>        col_pos <span class="op">=</span> headers.find(b<span class="st">":"</span>, con_pos)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>        srsn <span class="op">=</span> headers.find(b<span class="st">"</span><span class="ch">\r\n</span><span class="st">"</span>, col_pos)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>        con_len <span class="op">=</span> <span class="bu">int</span>(headers[col_pos <span class="op">+</span> <span class="dv">2</span>:srsn])</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>        <span class="cf">return</span> con_len</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>header <span class="op">=</span> <span class="cf">await</span> reader.readuntil(b<span class="st">"</span><span class="ch">\r\n\r\n</span><span class="st">"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>content_length <span class="op">=</span> check_content(header)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a><span class="cf">if</span> content_length:</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>    content <span class="op">=</span> <span class="cf">await</span> reader.readexactly(content_length)</span></code></pre></div>
 <p>The method <code>check_content</code> checks for <code>Content-Length</code> in the header byte string and returns the value and the following snippet reads exactly the amount of bytes as specified in the <code>Content-Length</code> header field.</p>
 <p>File uploads, handling query parameters in a GET request were the features added next. It involved a lot of refactoring, as I was realizing the pains of strings and byte strings which Python 2 did not differentiate, and was also slowly getting the hang of how asyncio works.</p>
 <p>Features to be added:</p>
@@ -127,7 +127,7 @@
 
     </nav></aside><section class="comments hidden-print"><h2>Comments</h2>
         
-        
+    
         <div id="disqus_thread"></div>
         <script>
         var disqus_shortname ="iammrinal0",
@@ -149,7 +149,7 @@
 
         </section></article><script>var disqus_shortname="iammrinal0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p></p>
 <hr>
-<a class="fab fa-github" href="https://github.com/iammrinal0" title="GitHub" target="_blank"></a><a class="fab fa-keybase" href="https://keybase.io/iammrinal0" title="Keybase" target="_blank"></a><a class="fab fa-linkedin" href="https://linkedin.com/in/iammrinal0" title="LinkedIn" target="_blank"></a><a class="fab fa-strava" href="https://strava.com/athletes/iammrinal0" title="Strava" target="_blank"></a><a class="fab fa-twitter" href="https://twitter.com/iammrinal0" title="Twitter" target="_blank"></a><a class="fab fa-instagram" href="https://instagram.com/iammrinal0" title="Instagram" target="_blank"></a><br>© 2020         <a href="mailto:contact@mrinalpurohit.in">Mrinal Purohit</a> - Powered by        <a href="https://getnikola.com" rel="nofollow" target="_blank">Nikola</a> with <a href="https://github.com/iammrinal0/lanyon" target="_blank">Lanyon</a> theme
+<a class="fab fa-github" href="https://github.com/iammrinal0" title="GitHub" target="_blank"></a><a class="fab fa-keybase" href="https://keybase.io/iammrinal0" title="Keybase" target="_blank"></a><a class="fab fa-linkedin" href="https://linkedin.com/in/iammrinal0" title="LinkedIn" target="_blank"></a><a class="fab fa-strava" href="https://strava.com/athletes/iammrinal0" title="Strava" target="_blank"></a><a class="fab fa-twitter" href="https://twitter.com/iammrinal0" title="Twitter" target="_blank"></a><a class="fab fa-instagram" href="https://instagram.com/iammrinal0" title="Instagram" target="_blank"></a><br>© 2024         <a href="mailto:contact@mrinalpurohit.in">Mrinal Purohit</a> - Powered by        <a href="https://getnikola.com" rel="nofollow" target="_blank">Nikola</a> with <a href="https://github.com/iammrinal0/lanyon" target="_blank">Lanyon</a> theme
             
         </footer>
 </div>
