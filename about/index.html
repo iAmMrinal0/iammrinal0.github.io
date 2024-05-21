@@ -102,8 +102,8 @@
         }, false);
       })(document);
     </script><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script><script src="../assets/js/all.js"></script><script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-576133a19bcabb3e"></script><!-- fancy dates --><script>
-    moment.locale("en");
-    fancydates(2, "YYYY-MM-DD HH:mm");
+    luxon.Settings.defaultLocale = "en";
+    fancydates(2, {"preset": false, "format": "yyyy-MM-dd HH:mm"});
     </script><!-- end fancy dates -->
 </body>
 </html>
